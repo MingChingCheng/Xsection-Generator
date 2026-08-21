@@ -1,7 +1,8 @@
 import customtkinter as ctk
 
-from src.ui.tabs.project import ProjectFrame
 from src.model.project import ProjectData
+from src.ui.tabs.project import ProjectFrame
+
 
 class TabView(ctk.CTkTabview):
     def __init__(self, master, fonts):
