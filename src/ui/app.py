@@ -29,7 +29,7 @@ class App(ctk.CTk):
         self.menu_bar = MenuBar(self)
 
         # Tab view
-        self.tabview = TabView(self)
+        self.tabview = TabView(self, fonts)
         self.tabview.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
         for button in self.tabview._segmented_button._buttons_dict.values():
             button.configure(font=fonts.tab_font, border_spacing=6, width=120)

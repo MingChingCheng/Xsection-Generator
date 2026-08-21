@@ -1,8 +1,10 @@
 import customtkinter as ctk
 
+from src.ui.tabs.project import ProjectFrame
+
 
 class TabView(ctk.CTkTabview):
-    def __init__(self, master):
+    def __init__(self, master, fonts):
         super().__init__(master)
 
         # create tabs
@@ -16,8 +18,8 @@ class TabView(ctk.CTkTabview):
             self.tabs.append(new_tab)
 
         # insert frames to each tab
-        # self.project_frame = ProjectFrame(self.tabs[0])
-        # self.project_frame.grid(row=0, column=0, sticky="nwe")
+        self.project_frame = ProjectFrame(self.tabs[0], fonts)
+        self.project_frame.grid(row=0, column=0, sticky="nwe")
 
         # self.mask_frame = MaskFrame(self.tabs[1])
         # self.mask_frame.grid(row=0, column=0, sticky="nsew")
@@ -27,3 +29,4 @@ class TabView(ctk.CTkTabview):
 
         # self.output_frame = OutputFrame(self.tabs[3])
         # self.output_frame.grid(row=0, column=0, sticky="nwe")
+
