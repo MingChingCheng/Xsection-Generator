@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 from src.ui.tabs.project import ProjectFrame
-
+from src.model.project import ProjectData
 
 class TabView(ctk.CTkTabview):
     def __init__(self, master, fonts):
@@ -30,3 +30,5 @@ class TabView(ctk.CTkTabview):
         # self.output_frame = OutputFrame(self.tabs[3])
         # self.output_frame.grid(row=0, column=0, sticky="nwe")
 
+    def get_project_data(self) -> ProjectData:
+        return self.project_frame.get_data()

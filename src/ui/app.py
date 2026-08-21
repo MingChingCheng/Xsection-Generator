@@ -4,11 +4,6 @@ from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
 
-# from src.ui.frames import ProjectFrame, MaskFrame, ProcessFrame, OutputFrame
-
-
-
-
 
 class App(ctk.CTk):
     def __init__(self):

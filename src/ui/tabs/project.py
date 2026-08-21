@@ -1,10 +1,11 @@
 import customtkinter as ctk
 
 from src.ui.fonts import MyFonts
+from src.model.project import ProjectData
 
 
 class ProjectFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts:MyFonts):
+    def __init__(self, master, fonts: MyFonts):
         super().__init__(master, fg_color="transparent")
 
         # grid
@@ -51,9 +52,19 @@ class ProjectFrame(ctk.CTkFrame):
         self.depth_description.grid(row=4, column=2, columnspan=2, padx=5, sticky="e")
 
         # Below
-        self.below_label = ctk.CTkLabel(self,  font=fonts.text_font, text="Below (um): ")
+        self.below_label = ctk.CTkLabel(self, font=fonts.text_font, text="Below (um): ")
         self.below_entry = ctk.CTkEntry(self, font=fonts.text_font, placeholder_text="e.g.: 10")
         self.below_description = ctk.CTkLabel(self, font=fonts.desc_font, text="Display backside of substrate, default = 10 ", text_color="dimgray")
         self.below_label.grid(row=5, column=2, padx=5, sticky="e")
         self.below_entry.grid(row=5, column=3, padx=5, sticky="we")
         self.below_description.grid(row=6, column=2, columnspan=2, padx=5, sticky="e")
+
+    def get_data(self) -> ProjectData:
+        return ProjectData(
+            project_name=self.project_name_entry.get() or "New_Project",
+            z_scaling=self.z_scale_entry.get() or "1",
+            resolution=self.resolution_entry.get() or "0.001",
+            height=self.height_entry.get() or "20",
+            depth=self.depth_entry.get() or "10",
+            below=self.below_entry.get() or "10",
+        )
