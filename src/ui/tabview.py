@@ -35,3 +35,6 @@ class TabView(ctk.CTkTabview):
 
     def get_project_data(self) -> ProjectData:
         return self.project_frame.get_data()
+
+    def get_mask_data(self) -> dict[str, MaskData]:
+        return self.mask_frame.get_data()
