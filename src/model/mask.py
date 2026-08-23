@@ -23,17 +23,20 @@ class MaskDataDict(dict):
     def remove_mask_data(self, index: int):
         if str(index) in self:
             del self[str(index)]
-            self.refresh_mask_data()
+            self._reorder_mask_data()
 
-    def refresh_mask_data(self):
+    def _reorder_mask_data(self):
+        new_dict = {}
         for index, key in enumerate(self.keys()):
             mask_data = self[key]
-            self[f"{index}"] = mask_data
+            new_dict[f"{index}"] = mask_data
+        self.clear()
+        self.update(new_dict)
 
     def swap_mask_data(self, index1: int, index2: int):
         if str(index1) in self and str(index2) in self:
             self[str(index1)], self[str(index2)] = self[str(index2)], self[str(index1)]
-            
+
     def _apply_default_value(self, mask_data: MaskData) -> MaskData:
         length = self.__len__()
 

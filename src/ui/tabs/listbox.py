@@ -47,13 +47,6 @@ class ListBoxFrame(ctk.CTkFrame):
             self.listbox.move_down(index)
             self.data_dict.swap_mask_data(index, index+1)
 
-    def delete_selected(self):
-        index = self.listbox.curselection()
-        self.listbox.delete(index)
-
-    def delete_all(self):
-        self.listbox.delete("all")
-
     def refresh_listbox(self):
         self.listbox.delete("all")
         for index, data in self.data_dict.items():

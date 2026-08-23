@@ -68,7 +68,10 @@ class MaskFrame(ctk.CTkFrame):
 
     def remove(self):
         """print dict data temporarily"""
-        self._print_mask_data_dict()
+        index = self.listbox_frame._selected_index()
+        if index is not None:
+            self.mask_data_dict.remove_mask_data(index)
+            self.listbox_frame.refresh_listbox()
 
     def add(self):
         """add a new mask to listbox"""
@@ -96,7 +99,7 @@ class MaskFrame(ctk.CTkFrame):
                         datatype=self.datatype_entry.get(),
                         invert=self.invert_checkbox.get())
     
-    def get_selected_data(self) -> MaskData:
+    def _get_selected_data(self) -> MaskData:
         ...
 
     def _print_mask_data_dict(self):
