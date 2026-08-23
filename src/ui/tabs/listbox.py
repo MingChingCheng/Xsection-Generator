@@ -1,12 +1,12 @@
 import customtkinter as ctk
 from CTkListbox import CTkListbox
 
-from src.model.basic import DataDict
+from src.model.basic import Data, DataDict
 from src.ui.fonts import MyFonts
 
 
 class ListBoxFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts, data_dict: DataDict):
+    def __init__(self, master, fonts: MyFonts, data_dict: DataDict[Data]):
         super().__init__(master)
 
         # Dict data

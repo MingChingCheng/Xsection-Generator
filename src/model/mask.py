@@ -14,7 +14,7 @@ class MaskData(Data):
         return f"{self.name} {self.gdsii_number}/{self.datatype}"
 
 
-class MaskDataDict(DataDict):
+class MaskDataDict(DataDict[MaskData]):
     def __init__(self):
         super().__init__()
 

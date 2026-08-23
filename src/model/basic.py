@@ -1,4 +1,8 @@
 from dataclasses import dataclass
+from typing import Generic, TypeVar
+
+# Define type variable for value type.
+DataT = TypeVar("DataT", bound="Data")
 
 
 @dataclass
@@ -9,11 +13,11 @@ class Data:
         return "This is a base class for data objects."
 
 
-class DataDict(dict):
+class DataDict(dict[str, DataT], Generic[DataT]):
     def __init__(self):
         super().__init__()
 
-    def append_data(self, data: Data):
+    def append_data(self, data: DataT):
         length = self.__len__()
         self[f"{length}"] = self._apply_default_value(data)
 
@@ -27,13 +31,13 @@ class DataDict(dict):
             self[str(index1)], self[str(index2)] = self[str(index2)], self[str(index1)]
 
     def _reorder_data(self):
-        new_dict = {}
+        new_dict: dict[str, DataT] = {}
         for index, key in enumerate(self.keys()):
             data = self[key]
             new_dict[f"{index}"] = data
         self.clear()
         self.update(new_dict)
 
-    def _apply_default_value(self, data: Data) -> Data:
+    def _apply_default_value(self, data: DataT) -> DataT:
         """This method should be overridden in subclasses."""
         return data
