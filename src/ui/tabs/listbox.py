@@ -5,8 +5,11 @@ from src.ui.fonts import MyFonts
 
 
 class ListBoxFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts):
+    def __init__(self, master, fonts: MyFonts, data_dict: dict):
         super().__init__(master)
+
+        # Dict data
+        self.data_dict = data_dict
 
         # grid
         self.grid_rowconfigure(0, weight=1)
@@ -40,3 +43,8 @@ class ListBoxFrame(ctk.CTkFrame):
 
     def delete_all(self):
         self.listbox.delete("all")
+
+    def refresh_listbox(self):
+        self.listbox.delete("all")
+        for index, data in self.data_dict.items():
+            self.listbox.insert(f"{index}", data.option_string())
