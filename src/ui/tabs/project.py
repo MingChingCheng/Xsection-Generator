@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
-from src.ui.fonts import MyFonts
 from src.model.project import ProjectData
+from src.ui.fonts import MyFonts
 
 
 class ProjectFrame(ctk.CTkFrame):
