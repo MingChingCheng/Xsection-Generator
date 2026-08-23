@@ -70,7 +70,7 @@ class MaskFrame(ctk.CTkFrame):
         """print dict data temporarily"""
         index = self.listbox_frame._selected_index()
         if index is not None:
-            self.mask_data_dict.remove_mask_data(index)
+            self.mask_data_dict.remove_data(index)
             self.listbox_frame.refresh_listbox()
 
     def add(self):
@@ -80,7 +80,7 @@ class MaskFrame(ctk.CTkFrame):
         mask_data = self._get_entry_data()
         
         # append the new mask data
-        self.mask_data_dict.append_mask_data(mask_data)
+        self.mask_data_dict.append_data(mask_data)
         self.listbox_frame.refresh_listbox()
 
         # clear the entry fields
