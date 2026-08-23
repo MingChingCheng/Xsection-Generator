@@ -30,6 +30,10 @@ class MaskDataDict(dict):
             mask_data = self[key]
             self[f"{index}"] = mask_data
 
+    def swap_mask_data(self, index1: int, index2: int):
+        if str(index1) in self and str(index2) in self:
+            self[str(index1)], self[str(index2)] = self[str(index2)], self[str(index1)]
+            
     def _apply_default_value(self, mask_data: MaskData) -> MaskData:
         length = self.__len__()
 

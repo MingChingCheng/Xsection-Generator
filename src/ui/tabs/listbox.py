@@ -26,16 +26,26 @@ class ListBoxFrame(ctk.CTkFrame):
         self.up_button.grid(row=1, column=0, padx=(0, 5))
         self.down_button.grid(row=1, column=1, padx=(5, 0))
 
+    def _selected_index(self) -> int | None:
+        index = self.listbox.curselection()
+        if index is None:
+            return None
+        if isinstance(index, tuple):
+            return index[0]
+        if isinstance(index, int):
+            return index
 
     def move_up(self):
-        index = self.listbox.curselection()
-        if index is not None:
+        index = self._selected_index()
+        if index is not None and index > 0:
             self.listbox.move_up(index)
+            self.data_dict.swap_mask_data(index, index-1)
         
     def move_down(self):
-        index = self.listbox.curselection()
-        if index is not None:
+        index = self._selected_index()
+        if index is not None and index < self.listbox.size() - 1:
             self.listbox.move_down(index)
+            self.data_dict.swap_mask_data(index, index+1)
 
     def delete_selected(self):
         index = self.listbox.curselection()
