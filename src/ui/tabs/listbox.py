@@ -26,11 +26,13 @@ class ListBoxFrame(ctk.CTkFrame):
 
     def move_up(self):
         index = self.listbox.curselection()
-        self.listbox.move_up(index)
-
+        if index is not None:
+            self.listbox.move_up(index)
+        
     def move_down(self):
         index = self.listbox.curselection()
-        self.listbox.move_down(index)
+        if index is not None:
+            self.listbox.move_down(index)
 
     def delete_selected(self):
         index = self.listbox.curselection()
