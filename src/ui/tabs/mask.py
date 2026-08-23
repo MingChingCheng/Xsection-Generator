@@ -1,3 +1,5 @@
+import tkinter as tk
+
 import customtkinter as ctk
 
 from src.model.mask import MaskData
@@ -70,7 +72,10 @@ class MaskFrame(ctk.CTkFrame):
         ...
 
     def clear(self):
-        ...
+        self.name_entry.delete(0, tk.END)
+        self.gdsii_number_entry.delete(0, tk.END)
+        self.datatype_entry.delete(0, tk.END)
+        self.invert_checkbox.deselect()
         
     def get_data(self) -> dict[str, MaskData]:
         data = {}
