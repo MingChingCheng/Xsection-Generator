@@ -1,16 +1,20 @@
+from typing import Generic, TypeVar
+
 import customtkinter as ctk
 from CTkListbox import CTkListbox
 
-from src.model.basic import DataDict
+from src.model.basic import Data, DataDict
 from src.ui.fonts import MyFonts
 
+DataT = TypeVar("DataT", bound=Data)
 
-class ListBoxFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts, data_dict: DataDict):
+
+class ListBoxFrame(ctk.CTkFrame, Generic[DataT]):
+    def __init__(self, master, fonts: MyFonts, data_dict: DataDict[DataT]):
         super().__init__(master)
 
         # Dict data
-        self.data_dict = data_dict
+        self.data_dict: DataDict[DataT] = data_dict
 
         # grid
         self.grid_rowconfigure(0, weight=1)
