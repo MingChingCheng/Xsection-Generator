@@ -10,7 +10,7 @@ class MaskData(Data):
     datatype: str
     invert: int | str
 
-    def option_string(self):
+    def option_string(self) -> str:
         return f"{self.name} {self.gdsii_number}/{self.datatype}"
 
 
@@ -18,29 +18,29 @@ class MaskDataDict(DataDict[MaskData]):
     def __init__(self):
         super().__init__()
 
-    def _apply_default_value(self, mask_data: MaskData) -> MaskData:
+    def _apply_default_value(self, data: MaskData) -> MaskData:
         length = self.__len__()
 
         # name
-        if mask_data.name == "":
-            mask_data.name = f"Mask_{length + 1}"
+        if data.name == "":
+            data.name = f"Mask_{length + 1}"
 
         # gdsii_number
-        if mask_data.gdsii_number == "":
+        if data.gdsii_number == "":
             # setting a unique gdsii_number
             existing_number = [mask.gdsii_number for mask in self.values()]
             for i in range(1, length+2):
                 if f"{i}" not in existing_number:
-                    mask_data.gdsii_number = f"{i}"
+                    data.gdsii_number = f"{i}"
                     break
             else:
-                mask_data.gdsii_number = f"{length + 1}"
+                data.gdsii_number = f"{length + 1}"
         # datatype
-        if mask_data.datatype == "":
-            mask_data.datatype = "0"
+        if data.datatype == "":
+            data.datatype = "0"
 
         # invert
-        if mask_data.invert == "":
-            mask_data.invert = 0
+        if data.invert == "":
+            data.invert = 0
 
-        return mask_data
+        return data

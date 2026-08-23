@@ -66,14 +66,14 @@ class MaskFrame(ctk.CTkFrame):
     def modify(self):
         ...
 
-    def remove(self):
+    def remove(self) -> None:
         """print dict data temporarily"""
         index = self.listbox_frame._selected_index()
         if index is not None:
             self.mask_data_dict.remove_data(index)
             self.listbox_frame.refresh_listbox()
 
-    def add(self):
+    def add(self) -> None:
         """add a new mask to listbox"""
 
         # create a new MaskData
@@ -86,7 +86,7 @@ class MaskFrame(ctk.CTkFrame):
         # clear the entry fields
         self.clear()
 
-    def clear(self):
+    def clear(self) -> None:
         """clear all entries"""
         self.name_entry.delete(0, tk.END)
         self.gdsii_number_entry.delete(0, tk.END)
@@ -102,7 +102,7 @@ class MaskFrame(ctk.CTkFrame):
     def _get_selected_data(self) -> MaskData:
         ...
 
-    def _print_mask_data_dict(self):
+    def _print_mask_data_dict(self) -> None:
         print("Current mask data dict:")
         for _ in self.mask_data_dict:
             print(f"{_}: {self.mask_data_dict[_]}")

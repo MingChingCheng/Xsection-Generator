@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from src.model.mask import MaskData
+from src.model.mask import MaskDataDict
 from src.model.project import ProjectData
 from src.ui.tabs.mask import MaskFrame
 from src.ui.tabs.project import ProjectFrame
@@ -36,5 +36,5 @@ class TabView(ctk.CTkTabview):
     def get_project_data(self) -> ProjectData:
         return self.project_frame.get_data()
 
-    def get_mask_data(self) -> dict[str, MaskData]:
+    def get_mask_data(self) -> MaskDataDict:
         return self.mask_frame.get_data()

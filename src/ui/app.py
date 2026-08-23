@@ -1,5 +1,6 @@
 import customtkinter as ctk
 
+from model.basic import Data, DataDict
 from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
@@ -29,7 +30,7 @@ class App(ctk.CTk):
         for button in self.tabview._segmented_button._buttons_dict.values():
             button.configure(font=fonts.tab_font, border_spacing=6, width=120)
 
-    def get_all_data(self) -> dict:
+    def get_all_data(self) -> dict[str, Data | DataDict]:
         data = {"project": self.tabview.get_project_data(),
                 "mask": self.tabview.get_mask_data()}
         

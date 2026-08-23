@@ -12,6 +12,6 @@ class ProjectData(Data):
     depth: str = "10"
     below: str = "10"
 
-    def option_string(self):
+    def option_string(self) -> str:
         return f"{self.project_name}"
     

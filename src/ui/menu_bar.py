@@ -1,4 +1,7 @@
-from CTkMenuBar import CTkMenuBar, CustomDropdownMenu
+from CTkMenuBar import (
+    CTkMenuBar,
+    CustomDropdownMenu,
+)
 
 
 class MenuBar:

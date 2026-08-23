@@ -1,12 +1,12 @@
 import customtkinter as ctk
 from CTkListbox import CTkListbox
 
-from src.model.basic import Data, DataDict
+from src.model.basic import DataDict
 from src.ui.fonts import MyFonts
 
 
 class ListBoxFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts, data_dict: DataDict[Data]):
+    def __init__(self, master, fonts: MyFonts, data_dict: DataDict):
         super().__init__(master)
 
         # Dict data
@@ -36,19 +36,19 @@ class ListBoxFrame(ctk.CTkFrame):
         if isinstance(index, int):
             return index
 
-    def move_up(self):
+    def move_up(self) -> None:
         index = self._selected_index()
         if index is not None and index > 0:
             self.listbox.move_up(index)
             self.data_dict.swap_data(index, index-1)
         
-    def move_down(self):
+    def move_down(self) -> None:
         index = self._selected_index()
         if index is not None and index < self.listbox.size() - 1:
             self.listbox.move_down(index)
             self.data_dict.swap_data(index, index+1)
 
-    def refresh_listbox(self):
+    def refresh_listbox(self) -> None:
         self.listbox.delete("all")
         for index, data in self.data_dict.items():
             self.listbox.insert(f"{index}", data.option_string())
