@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from CTkListbox import CTkListbox
 
-from src.model.basic import Data, DataDict
+from src.model.basic import DataDict
 from src.ui.fonts import MyFonts
 
 
