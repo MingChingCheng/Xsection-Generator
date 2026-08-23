@@ -29,3 +29,8 @@ class App(ctk.CTk):
         for button in self.tabview._segmented_button._buttons_dict.values():
             button.configure(font=fonts.tab_font, border_spacing=6, width=120)
 
+    def get_all_data(self) -> dict:
+        data = {"project": self.tabview.get_project_data(),
+                "mask": self.tabview.get_mask_data()}
+        
+        return data

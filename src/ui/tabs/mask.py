@@ -108,7 +108,5 @@ class MaskFrame(ctk.CTkFrame):
             print(f"{_}: {self.mask_data_dict[_]}")
         print("-------------------------------")
 
-    def get_data(self) -> dict[str, MaskData] | None:
-        data = {}
-        
-        return data
+    def get_data(self) -> dict[str, MaskData]:
+        return self.mask_data_dict
