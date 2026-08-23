@@ -2,7 +2,7 @@ import tkinter as tk
 
 import customtkinter as ctk
 
-from src.model.mask import MaskData
+from src.model.mask import MaskData, MaskDataDict
 from src.ui.fonts import MyFonts
 from src.ui.tabs.listbox import ListBoxFrame
 
@@ -11,12 +11,15 @@ class MaskFrame(ctk.CTkFrame):
     def __init__(self, master, fonts: MyFonts):
         super().__init__(master, fg_color="transparent")
 
+        # mask data dict
+        self.mask_data_dict = MaskDataDict()
+
         # grid
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
         # listbox frame
-        self.listbox_frame = ListBoxFrame(self, fonts)
+        self.listbox_frame = ListBoxFrame(self, fonts, self.mask_data_dict)
         self.listbox_frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
 
         # entry frame
@@ -45,10 +48,8 @@ class MaskFrame(ctk.CTkFrame):
         self.datatype_entry.grid(row=4, column=1, padx=5, sticky="we")
         self.datatype_description.grid(row=5, column=0, columnspan=2, padx=5, sticky="e")
 
-        # self.invert_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Invert: ")
         self.invert_checkbox = ctk.CTkCheckBox(self.entry_frame, font=fonts.text_font, text="Invert")
-        self.invert_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Check to invert the mask. ", text_color="dimgray")
-        # self.invert_label.grid(row=6, column=0, padx=5, sticky="e")
+        self.invert_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Check to invert the tone of mask. ", text_color="dimgray")
         self.invert_checkbox.grid(row=6, column=1, padx=5, sticky="w")
         self.invert_description.grid(row=7, column=0, columnspan=2, padx=5, sticky="e")
 
@@ -66,18 +67,45 @@ class MaskFrame(ctk.CTkFrame):
         ...
 
     def remove(self):
-        ...
+        """print dict data temporarily"""
+        self._print_mask_data_dict()
 
     def add(self):
-        ...
+        """add a new mask to listbox"""
+
+        # create a new MaskData
+        mask_data = self._get_entry_data()
+        
+        # append the new mask data
+        self.mask_data_dict.append_mask_data(mask_data)
+        self.listbox_frame.refresh_listbox()
+
+        # clear the entry fields
+        self.clear()
 
     def clear(self):
+        """clear all entries"""
         self.name_entry.delete(0, tk.END)
         self.gdsii_number_entry.delete(0, tk.END)
         self.datatype_entry.delete(0, tk.END)
         self.invert_checkbox.deselect()
-        
-    def get_data(self) -> dict[str, MaskData]:
+
+    def _get_entry_data(self) -> MaskData:
+        return MaskData(name=self.name_entry.get(),
+                        gdsii_number=self.gdsii_number_entry.get(),
+                        datatype=self.datatype_entry.get(),
+                        invert=self.invert_checkbox.get())
+    
+    def get_selected_data(self) -> MaskData:
+        ...
+
+    def _print_mask_data_dict(self):
+        print("Current mask data dict:")
+        for _ in self.mask_data_dict:
+            print(f"{_}: {self.mask_data_dict[_]}")
+        print("-------------------------------")
+
+    def get_data(self) -> dict[str, MaskData] | None:
         data = {}
         
         return data
