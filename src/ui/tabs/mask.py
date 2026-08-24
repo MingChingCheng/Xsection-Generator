@@ -13,6 +13,7 @@ class MaskFrame(ctk.CTkFrame):
 
         # mask data dict
         self.mask_data_dict = MaskDataDict()
+        self.selected_index: int | None = None
 
         # grid
         self.grid_rowconfigure(0, weight=1)
@@ -57,14 +58,48 @@ class MaskFrame(ctk.CTkFrame):
         self.modify_button = ctk.CTkButton(self, text="Modify", font=fonts.text_font, command=self.modify)
         self.remove_button = ctk.CTkButton(self, text="Remove", font=fonts.text_font, command=self.remove)
         self.add_button = ctk.CTkButton(self, text="Add", font=fonts.text_font, command=self.add)
-        self.clear_button = ctk.CTkButton(self, text="Clear", font=fonts.text_font, command=self.clear)
+        self.clear_button = ctk.CTkButton(self, text="Clear", font=fonts.text_font, command=self.clear_all_entries)
         self.modify_button.grid(row=2, column=0, padx=5)
         self.remove_button.grid(row=2, column=1, padx=5)
         self.add_button.grid(row=2, column=2, padx=5)
         self.clear_button.grid(row=2, column=3, padx=5)
 
     def modify(self):
-        ...
+        """modify the selected mask data"""
+        # entry fields
+        mask = self._get_selected_data()
+        if mask is not None:
+            self.clear_all_entries()
+            self.name_entry.insert(0, mask.name)
+            self.gdsii_number_entry.insert(0, mask.gdsii_number)
+            self.datatype_entry.insert(0, mask.datatype)
+            if mask.invert == 0:
+                self.invert_checkbox.deselect()
+            else:
+                self.invert_checkbox.select()
+
+        # set buttons to modify mode
+        self.add_button.configure(text="Update", command=self.update)
+        self.clear_button.configure(text="Cancel", command=self.cancel_modify)
+
+    def update(self):
+        mask = self._get_entry_data()
+        if self.selected_index is not None:
+            self.mask_data_dict.insert_data(self.selected_index, mask)
+            self.listbox_frame.refresh_listbox()
+
+        # set buttons back to add mode
+        self.clear_all_entries()
+        self.add_button.configure(text="Add", command=self.add)
+        self.clear_button.configure(text="Clear", command=self.clear_all_entries)
+
+    def cancel_modify(self):
+        # clear entry fields
+        self.clear_all_entries()
+
+        # set buttons back to add mode
+        self.add_button.configure(text="Add", command=self.add)
+        self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
     def remove(self) -> None:
         """print dict data temporarily"""
@@ -84,9 +119,9 @@ class MaskFrame(ctk.CTkFrame):
         self.listbox_frame.refresh_listbox()
 
         # clear the entry fields
-        self.clear()
+        self.clear_all_entries()
 
-    def clear(self) -> None:
+    def clear_all_entries(self) -> None:
         """clear all entries"""
         self.name_entry.delete(0, tk.END)
         self.gdsii_number_entry.delete(0, tk.END)
@@ -99,8 +134,11 @@ class MaskFrame(ctk.CTkFrame):
                         datatype=self.datatype_entry.get(),
                         invert=self.invert_checkbox.get())
     
-    def _get_selected_data(self) -> MaskData:
-        ...
+    def _get_selected_data(self) -> MaskData | None:
+        self.selected_index = self.listbox_frame._selected_index()
+        if self.selected_index is not None:
+            mask = self.mask_data_dict[f"{self.selected_index}"]
+            return mask
 
     def _print_mask_data_dict(self) -> None:
         print("Current mask data dict:")
