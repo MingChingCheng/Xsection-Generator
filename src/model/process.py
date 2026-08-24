@@ -7,6 +7,7 @@ from src.model.basic import Data, DataDict
 class ProcessData(Data):
     name: str
     type: str
+    mask: str
     material: str | list[str]
     ignore_material: str | list[str]
     vertical: str
@@ -41,7 +42,7 @@ class ProcessDataDict(DataDict[ProcessData]):
 
         # horizontal
         if data.horizontal == "":
-            data.horizontal = "0"
+            data.horizontal = "1"
 
         # angle
         if data.angle == "":
