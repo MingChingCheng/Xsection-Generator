@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from model.basic import Data, DataDict
+from src.model.basic import Data, DataDict
 from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
