@@ -11,6 +11,7 @@ class MaskData(Data):
     invert: int | str
 
     def option_string(self) -> str:
+        """return the string to be displayed in the listbox"""
         return f"{self.name} {self.gdsii_number}/{self.datatype}"
 
 
@@ -19,6 +20,7 @@ class MaskDataDict(DataDict[MaskData]):
         super().__init__()
 
     def _apply_default_value(self, data: MaskData) -> MaskData:
+        """apply default value to MaskData if entry is empty"""
         length = self.__len__()
 
         # name

@@ -32,6 +32,7 @@ class ListBoxFrame(ctk.CTkFrame, Generic[DataT]):
         self.down_button.grid(row=1, column=1, padx=(5, 0))
 
     def _selected_index(self) -> int | None:
+        """return the index of selected item in listbox"""
         index = self.listbox.curselection()
         if index is None:
             return None
@@ -41,18 +42,21 @@ class ListBoxFrame(ctk.CTkFrame, Generic[DataT]):
             return index
 
     def move_up(self) -> None:
+        """move the selected item up in the listbox"""
         index = self._selected_index()
         if index is not None and index > 0:
             self.listbox.move_up(index)
             self.data_dict.swap_data(index, index-1)
         
     def move_down(self) -> None:
+        """move the selected item down in the listbox"""
         index = self._selected_index()
         if index is not None and index < self.listbox.size() - 1:
             self.listbox.move_down(index)
             self.data_dict.swap_data(index, index+1)
 
     def refresh_listbox(self) -> None:
+        """refresh the listbox to reflect the current data_dict"""
         self.listbox.delete("all")
         for index, data in self.data_dict.items():
             self.listbox.insert(f"{index}", data.option_string())

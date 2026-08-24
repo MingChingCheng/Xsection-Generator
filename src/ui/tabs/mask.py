@@ -64,7 +64,7 @@ class MaskFrame(ctk.CTkFrame):
         self.add_button.grid(row=2, column=2, padx=5)
         self.clear_button.grid(row=2, column=3, padx=5)
 
-    def modify(self):
+    def modify(self) -> None:
         """modify the selected mask data"""
         # entry fields
         mask = self._get_selected_data()
@@ -82,7 +82,8 @@ class MaskFrame(ctk.CTkFrame):
         self.add_button.configure(text="Update", command=self.update)
         self.clear_button.configure(text="Cancel", command=self.cancel_modify)
 
-    def update(self):
+    def update(self) -> None:
+        """In update mode, update the selected mask data"""
         mask = self._get_entry_data()
         if self.selected_index is not None:
             self.mask_data_dict.insert_data(self.selected_index, mask)
@@ -93,7 +94,8 @@ class MaskFrame(ctk.CTkFrame):
         self.add_button.configure(text="Add", command=self.add)
         self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
-    def cancel_modify(self):
+    def cancel_modify(self) -> None:
+        """In modify mode, back to add mode"""
         # clear entry fields
         self.clear_all_entries()
 
@@ -102,7 +104,7 @@ class MaskFrame(ctk.CTkFrame):
         self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
     def remove(self) -> None:
-        """print dict data temporarily"""
+        """remove selected mask data from listbox"""
         index = self.listbox_frame._selected_index()
         if index is not None:
             self.mask_data_dict.remove_data(index)
@@ -110,7 +112,6 @@ class MaskFrame(ctk.CTkFrame):
 
     def add(self) -> None:
         """add a new mask to listbox"""
-
         # create a new MaskData
         mask_data = self._get_entry_data()
         
@@ -129,22 +130,19 @@ class MaskFrame(ctk.CTkFrame):
         self.invert_checkbox.deselect()
 
     def _get_entry_data(self) -> MaskData:
+        """return MaskData from entries"""
         return MaskData(name=self.name_entry.get(),
                         gdsii_number=self.gdsii_number_entry.get(),
                         datatype=self.datatype_entry.get(),
                         invert=self.invert_checkbox.get())
     
     def _get_selected_data(self) -> MaskData | None:
+        """return selected MaskData from listbox"""
         self.selected_index = self.listbox_frame._selected_index()
         if self.selected_index is not None:
             mask = self.mask_data_dict[f"{self.selected_index}"]
             return mask
 
-    def _print_mask_data_dict(self) -> None:
-        print("Current mask data dict:")
-        for _ in self.mask_data_dict:
-            print(f"{_}: {self.mask_data_dict[_]}")
-        print("-------------------------------")
-
     def get_data(self) -> MaskDataDict:
+        """return the mask data dict"""
         return self.mask_data_dict
