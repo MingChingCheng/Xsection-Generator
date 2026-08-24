@@ -1,0 +1,48 @@
+from dataclasses import dataclass
+
+from src.model.basic import Data, DataDict
+
+
+@dataclass
+class MaterialData(Data):
+    name: str
+    gdsii_number: str
+    datatype: str
+
+    def option_string(self) -> str:
+        """return the string to be displayed in the listbox"""
+        return f"{self.name} ({self.gdsii_number}/{self.datatype})"
+
+
+class MaterialDataDict(DataDict[MaterialData]):
+    def __init__(self):
+        super().__init__()
+
+        # initialize the substrate
+        substrate = MaterialData(name="Substrate", gdsii_number="0", datatype="0")
+        new_dict = {"1": substrate}
+        self.update(new_dict)
+
+    def _apply_default_value(self, data: MaterialData) -> MaterialData:
+        """apply default value to MaskData if entry is empty"""
+        length = self.__len__()
+
+        # name
+        if data.name == "":
+            data.name = f"Material_{length + 1}"
+
+        # gdsii_number
+        if data.gdsii_number == "":
+            # setting a unique gdsii_number
+            existing_number = [mask.gdsii_number for mask in self.values()]
+            for i in range(1, length + 2):
+                if f"{i}" not in existing_number:
+                    data.gdsii_number = f"{i}"
+                    break
+            else:
+                data.gdsii_number = f"{length + 1}"
+        # datatype
+        if data.datatype == "":
+            data.datatype = "0"
+
+        return data
