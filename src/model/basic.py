@@ -21,6 +21,9 @@ class DataDict(dict[str, DataT], Generic[DataT]):
         length = self.__len__()
         self[f"{length}"] = self._apply_default_value(data)
 
+    def insert_data(self, index: int, data: DataT):
+        self[f"{index}"] = self._apply_default_value(data)
+        
     def remove_data(self, index: int) -> None:
         if str(index) in self:
             del self[str(index)]
