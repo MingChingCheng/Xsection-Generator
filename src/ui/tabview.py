@@ -2,6 +2,7 @@ import customtkinter as ctk
 
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
+from src.model.process import ProcessDataDict
 from src.model.project import ProjectData
 from src.ui.tabs.mask import MaskFrame
 from src.ui.tabs.material import MaterialFrame
