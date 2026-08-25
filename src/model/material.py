@@ -36,13 +36,12 @@ class MaterialDataDict(DataDict[MaterialData]):
             data.gdsii_number = f"{length + 1}"
 
         # datatype
-        if data.datatype == "":
-            same_gdsii_numbers = 0
-            for material in self.values():
-                if material.gdsii_number == data.gdsii_number:
-                    same_gdsii_numbers += 1
+        same_gdsii_numbers = 0
+        for material in self.values():
+            if material.gdsii_number == data.gdsii_number:
+                same_gdsii_numbers += 1
 
-            data.datatype = f"{same_gdsii_numbers}"
+        data.datatype = f"{same_gdsii_numbers}"
             
 
         return data
