@@ -44,3 +44,8 @@ class DataDict(dict[str, DataT], Generic[DataT]):
     def _apply_default_value(self, data: DataT) -> DataT:
         """This method should be overridden in subclasses."""
         return data
+
+    def print_data(self) -> None:
+        """Print the data in the dictionary."""
+        for index, data in self.items():
+            print(f"Index: {index}, Data: {data.option_string()}")
