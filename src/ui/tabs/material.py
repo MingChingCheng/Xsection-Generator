@@ -23,7 +23,7 @@ class MaterialFrame(ctk.CTkFrame):
         self.listbox_frame = ListBoxFrame(self, fonts, self.material_data_dict)
         self.listbox_frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
         self.listbox_frame.refresh_listbox()
-        
+
         # entry frame
         self.entry_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.entry_frame.grid_columnconfigure(1, weight=1)
@@ -59,54 +59,46 @@ class MaterialFrame(ctk.CTkFrame):
         self.add_button.grid(row=2, column=2, padx=5)
         self.clear_button.grid(row=2, column=3, padx=5)
 
-    def modify(self): ...
-    def remove(self): ...
+    def modify(self) -> None:
+        """modify the selected material data"""
+        # entry fields
+        material = self._get_selected_data()
+        if material is not None:
+            self.clear_all_entries()
+            self.name_entry.insert(0, material.name)
+            self.gdsii_number_entry.insert(0, material.gdsii_number)
 
-    # def modify(self) -> None:
-    #     """modify the selected mask data"""
-    #     # entry fields
-    #     mask = self._get_selected_data()
-    #     if mask is not None:
-    #         self.clear_all_entries()
-    #         self.name_entry.insert(0, mask.name)
-    #         self.gdsii_number_entry.insert(0, mask.gdsii_number)
-    #         self.datatype_entry.insert(0, mask.datatype)
-    #         if mask.invert == 0:
-    #             self.invert_checkbox.deselect()
-    #         else:
-    #             self.invert_checkbox.select()
+        # set buttons to modify mode
+        self.add_button.configure(text="Update", command=self.update)
+        self.clear_button.configure(text="Cancel", command=self.cancel_modify)
 
-    #     # set buttons to modify mode
-    #     self.add_button.configure(text="Update", command=self.update)
-    #     self.clear_button.configure(text="Cancel", command=self.cancel_modify)
+    def update(self) -> None:
+        """In update mode, update the selected mask data"""
+        material = self._get_entry_data()
+        if self.selected_index is not None:
+            self.material_data_dict.insert_data(self.selected_index, material)
+            self.listbox_frame.refresh_listbox()
 
-    # def update(self) -> None:
-    #     """In update mode, update the selected mask data"""
-    #     mask = self._get_entry_data()
-    #     if self.selected_index is not None:
-    #         self.mask_data_dict.insert_data(self.selected_index, mask)
-    #         self.listbox_frame.refresh_listbox()
+        # set buttons back to add mode
+        self.clear_all_entries()
+        self.add_button.configure(text="Add", command=self.add)
+        self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
-    #     # set buttons back to add mode
-    #     self.clear_all_entries()
-    #     self.add_button.configure(text="Add", command=self.add)
-    #     self.clear_button.configure(text="Clear", command=self.clear_all_entries)
+    def cancel_modify(self) -> None:
+        """In modify mode, back to add mode"""
+        # clear entry fields
+        self.clear_all_entries()
 
-    # def cancel_modify(self) -> None:
-    #     """In modify mode, back to add mode"""
-    #     # clear entry fields
-    #     self.clear_all_entries()
+        # set buttons back to add mode
+        self.add_button.configure(text="Add", command=self.add)
+        self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
-    #     # set buttons back to add mode
-    #     self.add_button.configure(text="Add", command=self.add)
-    #     self.clear_button.configure(text="Clear", command=self.clear_all_entries)
-
-    # def remove(self) -> None:
-    #     """remove selected mask data from listbox"""
-    #     index = self.listbox_frame._selected_index()
-    #     if index is not None:
-    #         self.mask_data_dict.remove_data(index)
-    #         self.listbox_frame.refresh_listbox()
+    def remove(self) -> None:
+        """remove selected mask data from listbox"""
+        index = self.listbox_frame._selected_index()
+        if index is not None:
+            self.material_data_dict.remove_data(index)
+            self.listbox_frame.refresh_listbox()
 
     def add(self) -> None:
         """add a new mask to listbox"""
@@ -132,12 +124,12 @@ class MaterialFrame(ctk.CTkFrame):
             gdsii_number=self.gdsii_number_entry.get(),
         )
 
-    # def _get_selected_data(self) -> MaskData | None:
-    #     """return selected MaskData from listbox"""
-    #     self.selected_index = self.listbox_frame._selected_index()
-    #     if self.selected_index is not None:
-    #         mask = self.mask_data_dict[f"{self.selected_index}"]
-    #         return mask
+    def _get_selected_data(self) -> MaterialData | None:
+        """return selected MaskData from listbox"""
+        self.selected_index = self.listbox_frame._selected_index()
+        if self.selected_index is not None:
+            mask = self.material_data_dict[f"{self.selected_index}"]
+            return mask
 
     # def get_data(self) -> MaskDataDict:
     #     """return the mask data dict"""
