@@ -2,17 +2,27 @@ import tkinter as tk
 
 import customtkinter as ctk
 
+from src.model.mask import MaskDataDict
+from src.model.material import MaterialDataDict
 from src.model.process import ProcessData, ProcessDataDict
 from src.ui.fonts import MyFonts
 from src.ui.tabs.listbox import ListBoxFrame
 
 
 class ProcessFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts):
+    def __init__(
+        self,
+        master,
+        fonts: MyFonts,
+        mask_data_dict: MaskDataDict,
+        material_data_dict: MaterialDataDict,
+    ):
         super().__init__(master, fg_color="transparent")
         # TODO: put the mask data and material data to this frame
 
         # process data dict
+        self.mask_data_dict = mask_data_dict
+        self.material_data_dict = material_data_dict
         self.process_data_dict = ProcessDataDict()
         self.selected_index: int | None = None
 
