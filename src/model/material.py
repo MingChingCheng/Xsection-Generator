@@ -7,7 +7,7 @@ from src.model.basic import Data, DataDict
 class MaterialData(Data):
     name: str
     gdsii_number: str
-    datatype: str
+    datatype: str = "0"
 
     def option_string(self) -> str:
         """return the string to be displayed in the listbox"""
@@ -20,7 +20,7 @@ class MaterialDataDict(DataDict[MaterialData]):
 
         # initialize the substrate
         substrate = MaterialData(name="Substrate", gdsii_number="0", datatype="0")
-        new_dict = {"1": substrate}
+        new_dict = {"0": substrate}
         self.update(new_dict)
 
     def _apply_default_value(self, data: MaterialData) -> MaterialData:
