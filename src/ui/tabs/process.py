@@ -62,24 +62,17 @@ class ProcessFrame(ctk.CTkFrame):
 
         # TODO: add a scrollable frame for material selection
         self.material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Material: ")
-        self.material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame)
+        self.material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame, fg_color="silver")
         self.material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be deposited/grown or etched. ", text_color="dimgray",)
-        self.material_label.grid(row=6, column=0, padx=5, sticky="e")
+        self.material_label.grid(row=6, column=0, padx=5, sticky="ne")
         self.material_scrollable_frame.grid(row=6, column=1, padx=5, sticky="we")
         self.material_description.grid(row=7, column=0, columnspan=2, padx=5, sticky="e")
 
         # TODO: add a scrollable frame for material selection
-        self.material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Material: ")
-        self.material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame)
-        self.material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be deposited/grown or etched. ", text_color="dimgray",)
-        self.material_label.grid(row=6, column=0, padx=5, sticky="e")
-        self.material_scrollable_frame.grid(row=6, column=1, padx=5, sticky="we")
-        self.material_description.grid(row=7, column=0, columnspan=2, padx=5, sticky="e")
-
         self.ignore_material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Ignored Material: ")
-        self.ignore_material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame)
+        self.ignore_material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame, fg_color="silver")
         self.ignore_material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be ignored for deposition/grown or etched. ", text_color="dimgray",)
-        self.ignore_material_label.grid(row=8, column=0, padx=5, sticky="e")
+        self.ignore_material_label.grid(row=8, column=0, padx=5, sticky="ne")
         self.ignore_material_scrollable_frame.grid(row=8, column=1, padx=5, sticky="we")
         self.ignore_material_description.grid(row=9, column=0, columnspan=2, padx=5, sticky="e")
 
@@ -205,6 +198,6 @@ class ProcessFrame(ctk.CTkFrame):
     #         mask = self.mask_data_dict[f"{self.selected_index}"]
     #         return mask
 
-    # def get_data(self) -> MaskDataDict:
-    #     """return the mask data dict"""
-    #     return self.mask_data_dict
+    def get_data(self) -> ProcessDataDict:
+        """return the mask data dict"""
+        return self.process_data_dict
