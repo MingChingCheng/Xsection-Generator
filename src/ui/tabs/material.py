@@ -61,7 +61,6 @@ class MaterialFrame(ctk.CTkFrame):
     def modify(self): ...
     def remove(self): ...
     def add(self): ...
-    def clear_all_entries(self): ...
 
     # def modify(self) -> None:
     #     """modify the selected mask data"""
@@ -121,12 +120,10 @@ class MaterialFrame(ctk.CTkFrame):
     #     # clear the entry fields
     #     self.clear_all_entries()
 
-    # def clear_all_entries(self) -> None:
-    #     """clear all entries"""
-    #     self.name_entry.delete(0, tk.END)
-    #     self.gdsii_number_entry.delete(0, tk.END)
-    #     self.datatype_entry.delete(0, tk.END)
-    #     self.invert_checkbox.deselect()
+    def clear_all_entries(self) -> None:
+        """clear all entries"""
+        self.name_entry.delete(0, tk.END)
+        self.gdsii_number_entry.delete(0, tk.END)
 
     # def _get_entry_data(self) -> MaskData:
     #     """return MaskData from entries"""
