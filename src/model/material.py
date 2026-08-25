@@ -33,16 +33,16 @@ class MaterialDataDict(DataDict[MaterialData]):
 
         # gdsii_number
         if data.gdsii_number == "":
-            # setting a unique gdsii_number
-            existing_number = [mask.gdsii_number for mask in self.values()]
-            for i in range(1, length + 2):
-                if f"{i}" not in existing_number:
-                    data.gdsii_number = f"{i}"
-                    break
-            else:
-                data.gdsii_number = f"{length + 1}"
+            data.gdsii_number = f"{length + 1}"
+
         # datatype
         if data.datatype == "":
-            data.datatype = "0"
+            same_gdsii_numbers = 0
+            for material in self.values():
+                if material.gdsii_number == data.gdsii_number:
+                    same_gdsii_numbers += 1
+
+            data.datatype = f"{same_gdsii_numbers}"
+            
 
         return data

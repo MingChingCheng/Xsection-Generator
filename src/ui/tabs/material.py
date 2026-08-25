@@ -48,13 +48,6 @@ class MaterialFrame(ctk.CTkFrame):
         self.gdsii_number_entry.grid(row=2, column=1, padx=5, sticky="we")
         self.gdsii_number_description.grid(row=3, column=0, columnspan=2, padx=5, sticky="e")
 
-        self.datatype_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Datatype: ")
-        self.datatype_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 0, 1, ...")
-        self.datatype_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Set datatype of mask, default = 0. ", text_color="dimgray",)
-        self.datatype_label.grid(row=4, column=0, padx=5, sticky="e")
-        self.datatype_entry.grid(row=4, column=1, padx=5, sticky="we")
-        self.datatype_description.grid(row=5, column=0, columnspan=2, padx=5, sticky="e")
-
         # buttons
         self.modify_button = ctk.CTkButton(self, text="Modify", font=fonts.text_font, command=self.modify)
         self.remove_button = ctk.CTkButton(self, text="Remove", font=fonts.text_font, command=self.remove)
