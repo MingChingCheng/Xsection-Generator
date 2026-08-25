@@ -12,7 +12,7 @@ class MaterialFrame(ctk.CTkFrame):
         super().__init__(master, fg_color="transparent")
 
         # material data dict
-        self.mask_data_dict = MaterialDataDict()
+        self.material_data_dict = MaterialDataDict()
         self.selected_index: int | None = None
 
         # grid
@@ -20,9 +20,10 @@ class MaterialFrame(ctk.CTkFrame):
         self.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
         # listbox frame
-        self.listbox_frame = ListBoxFrame(self, fonts, self.mask_data_dict)
+        self.listbox_frame = ListBoxFrame(self, fonts, self.material_data_dict)
         self.listbox_frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
-
+        self.listbox_frame.refresh_listbox()
+        
         # entry frame
         self.entry_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.entry_frame.grid_columnconfigure(1, weight=1)
@@ -60,7 +61,6 @@ class MaterialFrame(ctk.CTkFrame):
 
     def modify(self): ...
     def remove(self): ...
-    def add(self): ...
 
     # def modify(self) -> None:
     #     """modify the selected mask data"""
@@ -108,31 +108,29 @@ class MaterialFrame(ctk.CTkFrame):
     #         self.mask_data_dict.remove_data(index)
     #         self.listbox_frame.refresh_listbox()
 
-    # def add(self) -> None:
-    #     """add a new mask to listbox"""
-    #     # create a new MaskData
-    #     mask_data = self._get_entry_data()
+    def add(self) -> None:
+        """add a new mask to listbox"""
+        # create a new MaskData
+        material_data = self._get_entry_data()
 
-    #     # append the new mask data
-    #     self.mask_data_dict.append_data(mask_data)
-    #     self.listbox_frame.refresh_listbox()
+        # append the new material data
+        self.material_data_dict.append_data(material_data)
+        self.listbox_frame.refresh_listbox()
 
-    #     # clear the entry fields
-    #     self.clear_all_entries()
+        # clear the entry fields
+        self.clear_all_entries()
 
     def clear_all_entries(self) -> None:
         """clear all entries"""
         self.name_entry.delete(0, tk.END)
         self.gdsii_number_entry.delete(0, tk.END)
 
-    # def _get_entry_data(self) -> MaskData:
-    #     """return MaskData from entries"""
-    #     return MaskData(
-    #         name=self.name_entry.get(),
-    #         gdsii_number=self.gdsii_number_entry.get(),
-    #         datatype=self.datatype_entry.get(),
-    #         invert=self.invert_checkbox.get(),
-    #     )
+    def _get_entry_data(self) -> MaterialData:
+        """return MaskData from entries"""
+        return MaterialData(
+            name=self.name_entry.get(),
+            gdsii_number=self.gdsii_number_entry.get(),
+        )
 
     # def _get_selected_data(self) -> MaskData | None:
     #     """return selected MaskData from listbox"""
