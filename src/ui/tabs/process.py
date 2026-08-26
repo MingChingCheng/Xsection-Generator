@@ -116,46 +116,49 @@ class ProcessFrame(ctk.CTkFrame):
         self.add_button.grid(row=2, column=2, padx=5)
         self.clear_button.grid(row=2, column=3, padx=5)
 
-    def modify(self): ...
+    def modify(self) -> None:
+        """modify the selected process data"""
+        # entry fields
+        process = self._get_selected_data()
+        if process is not None:
+            self.clear_all_entries()
+            self.name_entry.insert(0, process.name)
+            self.type_optionmenu.set(process.type)
+            self.mask_optionmenu.set(process.mask)
+            self.material_scrollable_frame.set_selection(process.material)
+            self.material_scrollable_frame.set_selection(process.ignore_material)
+            self.vertical_entry.insert(0, process.vertical)
+            self.horizontal_entry.insert(0, process.horizontal)
+            self.angle_entry.insert(0, process.angle)
+            if process.backside == 0:
+                self.backside_checkbox.deselect()
+            else:
+                self.backside_checkbox.select()
 
-    # def modify(self) -> None:
-    #     """modify the selected mask data"""
-    #     # entry fields
-    #     mask = self._get_selected_data()
-    #     if mask is not None:
-    #         self.clear_all_entries()
-    #         self.name_entry.insert(0, mask.name)
-    #         self.gdsii_number_entry.insert(0, mask.gdsii_number)
-    #         self.datatype_entry.insert(0, mask.datatype)
-    #         if mask.invert == 0:
-    #             self.invert_checkbox.deselect()
-    #         else:
-    #             self.invert_checkbox.select()
+        # set buttons to modify mode
+        self.add_button.configure(text="Update", command=self.update)
+        self.clear_button.configure(text="Cancel", command=self.cancel_modify)
 
-    #     # set buttons to modify mode
-    #     self.add_button.configure(text="Update", command=self.update)
-    #     self.clear_button.configure(text="Cancel", command=self.cancel_modify)
+    def update(self) -> None:
+        """In update mode, update the selected process data"""
+        process = self._get_entry_data()
+        if self.selected_index is not None:
+            self.process_data_dict.insert_data(self.selected_index, process)
+            self.listbox_frame.refresh_listbox()
 
-    # def update(self) -> None:
-    #     """In update mode, update the selected mask data"""
-    #     mask = self._get_entry_data()
-    #     if self.selected_index is not None:
-    #         self.mask_data_dict.insert_data(self.selected_index, mask)
-    #         self.listbox_frame.refresh_listbox()
+        # set buttons back to add mode
+        self.clear_all_entries()
+        self.add_button.configure(text="Add", command=self.add)
+        self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
-    #     # set buttons back to add mode
-    #     self.clear_all_entries()
-    #     self.add_button.configure(text="Add", command=self.add)
-    #     self.clear_button.configure(text="Clear", command=self.clear_all_entries)
+    def cancel_modify(self) -> None:
+        """In modify mode, back to add mode"""
+        # clear entry fields
+        self.clear_all_entries()
 
-    # def cancel_modify(self) -> None:
-    #     """In modify mode, back to add mode"""
-    #     # clear entry fields
-    #     self.clear_all_entries()
-
-    #     # set buttons back to add mode
-    #     self.add_button.configure(text="Add", command=self.add)
-    #     self.clear_button.configure(text="Clear", command=self.clear_all_entries)
+        # set buttons back to add mode
+        self.add_button.configure(text="Add", command=self.add)
+        self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
     def remove(self) -> None:
         """remove selected process data from listbox"""
@@ -202,12 +205,12 @@ class ProcessFrame(ctk.CTkFrame):
             backside=self.backside_checkbox.get(),
         )
 
-    # def _get_selected_data(self) -> MaskData | None:
-    #     """return selected MaskData from listbox"""
-    #     self.selected_index = self.listbox_frame._selected_index()
-    #     if self.selected_index is not None:
-    #         mask = self.mask_data_dict[f"{self.selected_index}"]
-    #         return mask
+    def _get_selected_data(self) -> ProcessData | None:
+        """return selected ProcessData from listbox"""
+        self.selected_index = self.listbox_frame._selected_index()
+        if self.selected_index is not None:
+            process = self.process_data_dict[f"{self.selected_index}"]
+            return process
 
     def get_data(self) -> ProcessDataDict:
         """return the mask data dict"""
@@ -276,3 +279,11 @@ class CheckList(ctk.CTkScrollableFrame):
         """Clear all selections in the checklist."""
         for checkbox in self.checkboxes:
             checkbox.deselect()
+
+    def set_selection(self, items: str | list[str]) -> None:
+        """Set the selection in the checklist based on the provided items."""
+        for checkbox in self.checkboxes:
+            if checkbox.cget("text") in items:
+                checkbox.select()
+            else:
+                checkbox.deselect()
