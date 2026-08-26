@@ -1,4 +1,5 @@
 import tkinter as tk
+from collections.abc import Callable
 
 import customtkinter as ctk
 
@@ -8,11 +9,17 @@ from src.ui.tabs.listbox import ListBoxFrame
 
 
 class MaterialFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts):
+    def __init__(
+        self,
+        master,
+        fonts: MyFonts,
+        on_change: Callable[[MaterialDataDict], None] | None = None,
+    ):
         super().__init__(master, fg_color="transparent")
 
         # material data dict
         self.material_data_dict = MaterialDataDict()
+        self.on_change = on_change
         self.selected_index: int | None = None
 
         # grid
@@ -78,6 +85,7 @@ class MaterialFrame(ctk.CTkFrame):
         if self.selected_index is not None:
             self.material_data_dict.insert_data(self.selected_index, material)
             self.listbox_frame.refresh_listbox()
+            self._notify_change()
 
         # set buttons back to add mode
         self.clear_all_entries()
@@ -99,6 +107,7 @@ class MaterialFrame(ctk.CTkFrame):
         if index is not None:
             self.material_data_dict.remove_data(index)
             self.listbox_frame.refresh_listbox()
+            self._notify_change()
 
     def add(self) -> None:
         """add a new to listbox"""
@@ -108,6 +117,7 @@ class MaterialFrame(ctk.CTkFrame):
         # append the new material data
         self.material_data_dict.append_data(material_data)
         self.listbox_frame.refresh_listbox()
+        self._notify_change()
 
         # clear the entry fields
         self.clear_all_entries()
@@ -134,3 +144,7 @@ class MaterialFrame(ctk.CTkFrame):
     def get_data(self) -> MaterialDataDict:
         """return the material data dict"""
         return self.material_data_dict
+
+    def _notify_change(self) -> None:
+        if self.on_change is not None:
+            self.on_change(self.material_data_dict)
