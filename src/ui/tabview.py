@@ -34,7 +34,11 @@ class TabView(ctk.CTkTabview):
         self.project_frame = ProjectFrame(self.tabs[0], fonts)
         self.project_frame.grid(row=0, column=0, sticky="nsew")
 
-        self.mask_frame = MaskFrame(self.tabs[1], fonts)
+        self.mask_frame = MaskFrame(
+            self.tabs[1], 
+            fonts,
+            on_change=self._update_mask_process_data,
+        )
         self.mask_frame.grid(row=0, column=0, sticky="nsew")
 
         self.material_frame = MaterialFrame(
@@ -66,6 +70,9 @@ class TabView(ctk.CTkTabview):
 
     def get_process_data(self) -> ProcessDataDict:
         return self.process_frame.get_data()
+
+    def _update_mask_process_data(self, mask_data_dict: MaskDataDict) -> None:
+        self.process_frame.update_mask_data(mask_data_dict)
 
     def _update_process_material_data(self, material_data_dict: MaterialDataDict) -> None:
         self.process_frame.update_material_data(material_data_dict)

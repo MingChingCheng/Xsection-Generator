@@ -52,8 +52,15 @@ class ProcessFrame(ctk.CTkFrame):
         self.type_optionmenu.grid(row=2, column=1, padx=5, sticky="we")
         self.type_description.grid(row=3, column=0, columnspan=2, padx=5, sticky="e")
 
+        self.mask_options = [
+            mask_data.option_string() for mask_data in self.mask_data_dict.values()
+        ] or ["No mask"]
         self.mask_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Mask: ")
-        self.mask_optionmenu = ctk.CTkOptionMenu(self.entry_frame, font=fonts.text_font, values=["Use", "MaskData", "Dict", "later"],)
+        self.mask_optionmenu = ctk.CTkOptionMenu(
+            self.entry_frame, 
+            font=fonts.text_font, 
+            values=self.mask_options
+            )
         self.mask_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the mask for the process. Only valid for 'Grow' and 'Etch' ", text_color="dimgray",)
         self.mask_label.grid(row=4, column=0, padx=5, sticky="e")
         self.mask_optionmenu.grid(row=4, column=1, padx=5, sticky="we")
@@ -199,11 +206,22 @@ class ProcessFrame(ctk.CTkFrame):
         """return the mask data dict"""
         return self.process_data_dict
 
+    def update_mask_data(self, mask_data_dict: MaskDataDict) -> None:
+        """update the mask data dict"""
+        self.mask_data_dict = mask_data_dict
+        mask_options = []
+        for mask in self.mask_data_dict.values():
+            mask_options.append(mask.option_string())
+
+        self.mask_optionmenu.configure(values=mask_options)
+
     def update_material_data(self, material_data_dict: MaterialDataDict) -> None:
         """update the material data dict"""
         self.material_data_dict = material_data_dict
         self.material_scrollable_frame.update_items(material_data_dict)
         self.ignore_material_scrollable_frame.update_items(material_data_dict)
+
+    
 
 class CheckList(ctk.CTkScrollableFrame):
     def __init__(self, master, fonts: MyFonts, material_data_dict: MaterialDataDict):
