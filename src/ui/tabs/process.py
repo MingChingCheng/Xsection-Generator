@@ -118,7 +118,6 @@ class ProcessFrame(ctk.CTkFrame):
 
     def modify(self): ...
     def remove(self): ...
-    def add(self): ...
 
     # def modify(self) -> None:
     #     """modify the selected mask data"""
@@ -166,17 +165,17 @@ class ProcessFrame(ctk.CTkFrame):
     #         self.mask_data_dict.remove_data(index)
     #         self.listbox_frame.refresh_listbox()
 
-    # def add(self) -> None:
-    #     """add a new mask to listbox"""
-    #     # create a new MaskData
-    #     mask_data = self._get_entry_data()
+    def add(self) -> None:
+        """add a new process to listbox"""
+        # create a new ProcessData
+        process_data = self._get_entry_data()
 
-    #     # append the new mask data
-    #     self.mask_data_dict.append_data(mask_data)
-    #     self.listbox_frame.refresh_listbox()
+        # append the new mask data
+        self.process_data_dict.append_data(process_data)
+        self.listbox_frame.refresh_listbox()
 
-    #     # clear the entry fields
-    #     self.clear_all_entries()
+        # clear the entry fields
+        self.clear_all_entries()
 
     def clear_all_entries(self) -> None:
         """clear all entries"""
@@ -190,14 +189,19 @@ class ProcessFrame(ctk.CTkFrame):
         self.angle_entry.delete(0, tk.END)
         self.backside_checkbox.deselect()
 
-    # def _get_entry_data(self) -> MaskData:
-    #     """return MaskData from entries"""
-    #     return MaskData(
-    #         name=self.name_entry.get(),
-    #         gdsii_number=self.gdsii_number_entry.get(),
-    #         datatype=self.datatype_entry.get(),
-    #         invert=self.invert_checkbox.get(),
-    #     )
+    def _get_entry_data(self) -> ProcessData:
+        """return ProcessData from entries"""
+        return ProcessData(
+            name=self.name_entry.get(),
+            type=self.type_optionmenu.get(),
+            mask=self.mask_optionmenu.get(),
+            material=self.material_scrollable_frame.get_selected_items(),
+            ignore_material=self.ignore_material_scrollable_frame.get_selected_items(),
+            vertical=self.vertical_entry.get(),
+            horizontal=self.horizontal_entry.get(),
+            angle=self.angle_entry.get(),
+            backside=self.backside_checkbox.get(),
+        )
 
     # def _get_selected_data(self) -> MaskData | None:
     #     """return selected MaskData from listbox"""
