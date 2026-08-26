@@ -18,7 +18,6 @@ class ProcessFrame(ctk.CTkFrame):
         material_data_dict: MaterialDataDict,
     ):
         super().__init__(master, fg_color="transparent")
-        # TODO: put the mask data and material data to this frame
 
         # process data dict
         self.mask_data_dict = mask_data_dict
@@ -60,17 +59,15 @@ class ProcessFrame(ctk.CTkFrame):
         self.mask_optionmenu.grid(row=4, column=1, padx=5, sticky="we")
         self.mask_description.grid(row=5, column=0, columnspan=2, padx=5, sticky="e")
 
-        # TODO: add a scrollable frame for material selection
         self.material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Material: ")
-        self.material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame, fg_color="silver")
+        self.material_scrollable_frame = CheckList(self.entry_frame, fonts, self.material_data_dict)
         self.material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be deposited/grown or etched. ", text_color="dimgray",)
         self.material_label.grid(row=6, column=0, padx=5, sticky="ne")
         self.material_scrollable_frame.grid(row=6, column=1, padx=5, sticky="we")
         self.material_description.grid(row=7, column=0, columnspan=2, padx=5, sticky="e")
 
-        # TODO: add a scrollable frame for material selection
         self.ignore_material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Ignored Material: ")
-        self.ignore_material_scrollable_frame = ctk.CTkScrollableFrame(self.entry_frame, fg_color="silver")
+        self.ignore_material_scrollable_frame = CheckList(self.entry_frame, fonts, self.material_data_dict)
         self.ignore_material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be ignored for deposition/grown or etched. ", text_color="dimgray",)
         self.ignore_material_label.grid(row=8, column=0, padx=5, sticky="ne")
         self.ignore_material_scrollable_frame.grid(row=8, column=1, padx=5, sticky="we")
@@ -201,3 +198,50 @@ class ProcessFrame(ctk.CTkFrame):
     def get_data(self) -> ProcessDataDict:
         """return the mask data dict"""
         return self.process_data_dict
+
+    def update_material_data(self, material_data_dict: MaterialDataDict) -> None:
+        """update the material data dict"""
+        self.material_data_dict = material_data_dict
+        self.material_scrollable_frame.update_items(material_data_dict)
+        self.ignore_material_scrollable_frame.update_items(material_data_dict)
+
+class CheckList(ctk.CTkScrollableFrame):
+    def __init__(self, master, fonts: MyFonts, material_data_dict: MaterialDataDict):
+        super().__init__(master, fg_color="Silver")
+        self.fonts = fonts
+        self.material_data_dict = material_data_dict
+
+        self.checkboxes = []
+        for i, item in enumerate(self.get_material_data_names()):
+            checkbox = ctk.CTkCheckBox(self, font=fonts.text_font, text=item)
+            checkbox.grid(row=i, column=0, sticky="w", padx=5, pady=2)
+            self.checkboxes.append(checkbox)
+
+    def get_material_data_names(self) -> list[str]:
+        names = []
+        for material in self.material_data_dict.values():
+            names.append(material.name)
+        return names
+
+    def get_selected_items(self) -> list[str]:
+        """return the selected items"""
+        selected_items = []
+        for checkbox in self.checkboxes:
+            if checkbox.get() == 1:
+                selected_items.append(checkbox.cget("text"))
+        return selected_items
+
+    def update_items(self, material_data_dict: MaterialDataDict) -> None:
+        """Refresh the checklist while keeping selections for existing items."""
+        self.material_data_dict = material_data_dict
+        selected_items = set(self.get_selected_items())
+        for checkbox in self.checkboxes:
+            checkbox.destroy()
+
+        self.checkboxes = []
+        for i, item in enumerate(self.get_material_data_names()):
+            checkbox = ctk.CTkCheckBox(self, font=self.fonts.text_font, text=item)
+            checkbox.grid(row=i, column=0, sticky="w", padx=5, pady=2)
+            if item in selected_items:
+                checkbox.select()
+            self.checkboxes.append(checkbox)
