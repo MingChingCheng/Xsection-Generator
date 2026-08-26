@@ -1,4 +1,4 @@
-import tkinter as tk
+from collections.abc import Callable
 from tkinter import filedialog
 
 import customtkinter as ctk
@@ -8,8 +8,9 @@ from src.ui.fonts import MyFonts
 
 
 class OutputFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts):
+    def __init__(self, master, fonts: MyFonts, on_export: Callable):
         super().__init__(master, fg_color="transparent")
+        self.export = on_export
 
         # grid
         self.grid_rowconfigure(0, weight=1)
@@ -73,11 +74,8 @@ class OutputFrame(ctk.CTkFrame):
         self.path_textbox.configure(state="disabled")
 
         print("Selected Output Path:", path)
-        return path
+        return path        
 
-    def export(self) -> None:
-        ...
-        
     def get_data(self) -> OutputData:
         return OutputData(
             path=self.path_textbox.get("0.0", "end"),

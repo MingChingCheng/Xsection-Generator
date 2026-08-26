@@ -1,3 +1,5 @@
+from collections.abc import Callable
+
 import customtkinter as ctk
 
 from src.model.mask import MaskDataDict
@@ -13,8 +15,9 @@ from src.ui.tabs.project import ProjectFrame
 
 
 class TabView(ctk.CTkTabview):
-    def __init__(self, master, fonts):
+    def __init__(self, master, fonts, export_file_with_data: Callable):
         super().__init__(master)
+        self.export_file_with_data = export_file_with_data
 
         # create tabs
         self.tab_names = [
@@ -58,7 +61,7 @@ class TabView(ctk.CTkTabview):
         )
         self.process_frame.grid(row=0, column=0, sticky="nsew")
 
-        self.output_frame = OutputFrame(self.tabs[4], fonts)
+        self.output_frame = OutputFrame(self.tabs[4], fonts, on_export=self._export_file)
         self.output_frame.grid(row=0, column=0, sticky="nsew")
 
     def get_project_data(self) -> ProjectData:
@@ -73,8 +76,14 @@ class TabView(ctk.CTkTabview):
     def get_process_data(self) -> ProcessDataDict:
         return self.process_frame.get_data()
 
+    def get_output_data(self) -> OutputData:
+        return self.output_frame.get_data()
+
     def _update_mask_process_data(self, mask_data_dict: MaskDataDict) -> None:
         self.process_frame.update_mask_data(mask_data_dict)
 
     def _update_process_material_data(self, material_data_dict: MaterialDataDict) -> None:
         self.process_frame.update_material_data(material_data_dict)
+
+    def _export_file(self) -> None:
+        self.export_file_with_data()
