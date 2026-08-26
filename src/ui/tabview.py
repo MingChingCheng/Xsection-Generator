@@ -1,6 +1,8 @@
 import customtkinter as ctk
 
 from src.model.mask import MaskDataDict
+from src.model.material import MaterialDataDict
+from src.model.process import ProcessDataDict
 from src.model.project import ProjectData
 from src.ui.tabs.mask import MaskFrame
 from src.ui.tabs.material import MaterialFrame
@@ -32,16 +34,26 @@ class TabView(ctk.CTkTabview):
         self.project_frame = ProjectFrame(self.tabs[0], fonts)
         self.project_frame.grid(row=0, column=0, sticky="nsew")
 
-        self.mask_frame = MaskFrame(self.tabs[1], fonts)
+        self.mask_frame = MaskFrame(
+            self.tabs[1], 
+            fonts,
+            on_change=self._update_mask_process_data,
+        )
         self.mask_frame.grid(row=0, column=0, sticky="nsew")
 
-        self.material_frame = MaterialFrame(self.tabs[2], fonts)
+        self.material_frame = MaterialFrame(
+            self.tabs[2],
+            fonts,
+            on_change=self._update_process_material_data,
+        )
         self.material_frame.grid(row=0, column=0, sticky="nsew")
 
-        # self.material_frame = MaterialFrame(self.tabs[2], fonts)
-        # self.material_frame.grid(row=0, column=0, sticky="nsew")
-
-        self.process_frame = ProcessFrame(self.tabs[3], fonts)
+        self.process_frame = ProcessFrame(
+            self.tabs[3],
+            fonts,
+            mask_data_dict=self.mask_frame.get_data(),
+            material_data_dict=self.material_frame.get_data(),
+        )
         self.process_frame.grid(row=0, column=0, sticky="nsew")
 
         # self.output_frame = OutputFrame(self.tabs[3], fonts)
@@ -52,3 +64,15 @@ class TabView(ctk.CTkTabview):
 
     def get_mask_data(self) -> MaskDataDict:
         return self.mask_frame.get_data()
+
+    def get_material_data(self) -> MaterialDataDict:
+        return self.material_frame.get_data()
+
+    def get_process_data(self) -> ProcessDataDict:
+        return self.process_frame.get_data()
+
+    def _update_mask_process_data(self, mask_data_dict: MaskDataDict) -> None:
+        self.process_frame.update_mask_data(mask_data_dict)
+
+    def _update_process_material_data(self, material_data_dict: MaterialDataDict) -> None:
+        self.process_frame.update_material_data(material_data_dict)

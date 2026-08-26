@@ -1,4 +1,5 @@
 import tkinter as tk
+from collections.abc import Callable
 
 import customtkinter as ctk
 
@@ -8,11 +9,17 @@ from src.ui.tabs.listbox import ListBoxFrame
 
 
 class MaskFrame(ctk.CTkFrame):
-    def __init__(self, master, fonts: MyFonts):
+    def __init__(
+            self, 
+            master, 
+            fonts: MyFonts, 
+            on_change: Callable[[MaskDataDict], None] | None = None,
+        ):
         super().__init__(master, fg_color="transparent")
 
         # mask data dict
         self.mask_data_dict = MaskDataDict()
+        self.on_change = on_change
         self.selected_index: int | None = None
 
         # grid
@@ -88,6 +95,7 @@ class MaskFrame(ctk.CTkFrame):
         if self.selected_index is not None:
             self.mask_data_dict.insert_data(self.selected_index, mask)
             self.listbox_frame.refresh_listbox()
+            self._notify_change()
 
         # set buttons back to add mode
         self.clear_all_entries()
@@ -109,6 +117,7 @@ class MaskFrame(ctk.CTkFrame):
         if index is not None:
             self.mask_data_dict.remove_data(index)
             self.listbox_frame.refresh_listbox()
+            self._notify_change()
 
     def add(self) -> None:
         """add a new mask to listbox"""
@@ -118,6 +127,7 @@ class MaskFrame(ctk.CTkFrame):
         # append the new mask data
         self.mask_data_dict.append_data(mask_data)
         self.listbox_frame.refresh_listbox()
+        self._notify_change()
 
         # clear the entry fields
         self.clear_all_entries()
@@ -146,3 +156,7 @@ class MaskFrame(ctk.CTkFrame):
     def get_data(self) -> MaskDataDict:
         """return the mask data dict"""
         return self.mask_data_dict
+
+    def _notify_change(self) -> None:
+        if self.on_change is not None:
+            self.on_change(self.mask_data_dict)
