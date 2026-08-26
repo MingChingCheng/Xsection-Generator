@@ -225,9 +225,10 @@ class ProcessFrame(ctk.CTkFrame):
 
 class CheckList(ctk.CTkScrollableFrame):
     def __init__(self, master, fonts: MyFonts, material_data_dict: MaterialDataDict):
-        super().__init__(master, fg_color="Silver")
+        super().__init__(master, fg_color="Silver", height=100)
         self.fonts = fonts
         self.material_data_dict = material_data_dict
+        self._scrollbar.configure(height=0)
 
         self.checkboxes = []
         for i, item in enumerate(self.get_material_data_names()):
