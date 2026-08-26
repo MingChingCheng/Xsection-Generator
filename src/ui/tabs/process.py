@@ -46,7 +46,7 @@ class ProcessFrame(ctk.CTkFrame):
         self.name_description.grid(row=1, column=0, columnspan=2, padx=5, sticky="e")
 
         self.type_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Type: ")
-        self.type_optionmenu = ctk.CTkOptionMenu(self.entry_frame, font=fonts.text_font, values=["Deposit", "Grow", "Etch"])
+        self.type_optionmenu = ctk.CTkOptionMenu(self.entry_frame, font=fonts.text_font, values=["", "Deposit", "Grow", "Etch"])
         self.type_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the type of process. ", text_color="dimgray",)
         self.type_label.grid(row=2, column=0, padx=5, sticky="e")
         self.type_optionmenu.grid(row=2, column=1, padx=5, sticky="we")
@@ -119,7 +119,6 @@ class ProcessFrame(ctk.CTkFrame):
     def modify(self): ...
     def remove(self): ...
     def add(self): ...
-    def clear_all_entries(self): ...
 
     # def modify(self) -> None:
     #     """modify the selected mask data"""
@@ -179,12 +178,17 @@ class ProcessFrame(ctk.CTkFrame):
     #     # clear the entry fields
     #     self.clear_all_entries()
 
-    # def clear_all_entries(self) -> None:
-    #     """clear all entries"""
-    #     self.name_entry.delete(0, tk.END)
-    #     self.gdsii_number_entry.delete(0, tk.END)
-    #     self.datatype_entry.delete(0, tk.END)
-    #     self.invert_checkbox.deselect()
+    def clear_all_entries(self) -> None:
+        """clear all entries"""
+        self.name_entry.delete(0, tk.END)
+        self.type_optionmenu.set("")
+        self.mask_optionmenu.set("No mask")
+        self.material_scrollable_frame.clear_selection()
+        self.ignore_material_scrollable_frame.clear_selection()
+        self.vertical_entry.delete(0, tk.END)
+        self.horizontal_entry.delete(0, tk.END)
+        self.angle_entry.delete(0, tk.END)
+        self.backside_checkbox.deselect()
 
     # def _get_entry_data(self) -> MaskData:
     #     """return MaskData from entries"""
@@ -264,3 +268,8 @@ class CheckList(ctk.CTkScrollableFrame):
             if item in selected_items:
                 checkbox.select()
             self.checkboxes.append(checkbox)
+
+    def clear_selection(self) -> None:
+        """Clear all selections in the checklist."""
+        for checkbox in self.checkboxes:
+            checkbox.deselect()
