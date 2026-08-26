@@ -46,7 +46,7 @@ class ProcessFrame(ctk.CTkFrame):
         self.name_description.grid(row=1, column=0, columnspan=2, padx=5, sticky="e")
 
         self.type_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Type: ")
-        self.type_optionmenu = ctk.CTkOptionMenu(self.entry_frame, font=fonts.text_font, values=["", "Deposit", "Grow", "Etch"])
+        self.type_optionmenu = ctk.CTkOptionMenu(self.entry_frame, font=fonts.text_font, values=["-", "Deposit", "Grow", "Etch"])
         self.type_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the type of process. ", text_color="dimgray",)
         self.type_label.grid(row=2, column=0, padx=5, sticky="e")
         self.type_optionmenu.grid(row=2, column=1, padx=5, sticky="we")
@@ -61,42 +61,72 @@ class ProcessFrame(ctk.CTkFrame):
             font=fonts.text_font, 
             values=self.mask_options
             )
-        self.mask_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the mask for the process. Only valid for 'Grow' and 'Etch' ", text_color="dimgray",)
+        self.mask_description = ctk.CTkLabel(
+            self.entry_frame,
+            font=fonts.desc_font,
+            text="Select the mask for 'Grow' or 'Etch' ",
+            text_color="dimgray",
+        )
         self.mask_label.grid(row=4, column=0, padx=5, sticky="e")
         self.mask_optionmenu.grid(row=4, column=1, padx=5, sticky="we")
         self.mask_description.grid(row=5, column=0, columnspan=2, padx=5, sticky="e")
 
         self.material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Material: ")
         self.material_scrollable_frame = CheckList(self.entry_frame, fonts, self.material_data_dict)
-        self.material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be deposited/grown or etched. ", text_color="dimgray",)
+        self.material_description = ctk.CTkLabel(
+            self.entry_frame,
+            font=fonts.desc_font,
+            text="Select one material for this process. ",
+            text_color="dimgray",
+        )
         self.material_label.grid(row=6, column=0, padx=5, sticky="ne")
         self.material_scrollable_frame.grid(row=6, column=1, padx=5, sticky="we")
         self.material_description.grid(row=7, column=0, columnspan=2, padx=5, sticky="e")
 
         self.ignore_material_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Ignored Material: ")
         self.ignore_material_scrollable_frame = CheckList(self.entry_frame, fonts, self.material_data_dict)
-        self.ignore_material_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the material to be ignored for deposition/grown or etched. ", text_color="dimgray",)
+        self.ignore_material_description = ctk.CTkLabel(
+            self.entry_frame,
+            font=fonts.desc_font,
+            text="Ignored material for this process. ",
+            text_color="dimgray",
+        )
         self.ignore_material_label.grid(row=8, column=0, padx=5, sticky="ne")
         self.ignore_material_scrollable_frame.grid(row=8, column=1, padx=5, sticky="we")
         self.ignore_material_description.grid(row=9, column=0, columnspan=2, padx=5, sticky="e")
 
         self.vertical_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Vertical (um): ")
-        self.vertical_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 1")
-        self.vertical_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Set the vertical thickness of process. Default = 1. ", text_color="dimgray",)
+        self.vertical_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 1.0")
+        self.vertical_description = ctk.CTkLabel(
+            self.entry_frame,
+            font=fonts.desc_font,
+            text="Set the vertical thickness. Default = 1.0. ",
+            text_color="dimgray",
+        )
         self.vertical_label.grid(row=10, column=0, padx=5, sticky="e")
         self.vertical_entry.grid(row=10, column=1, padx=5, sticky="we")
         self.vertical_description.grid(row=11, column=0, columnspan=2, padx=5, sticky="e")
 
         self.horizontal_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Horizontal (um): ")
-        self.horizontal_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 0")
-        self.horizontal_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Set the horizontal thickness of process. Default = 0. ", text_color="dimgray",)
+        self.horizontal_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 0.0")
+        self.horizontal_description = ctk.CTkLabel(
+            self.entry_frame,
+            font=fonts.desc_font,
+            text="Set the horizontal thickness. Default = 0.0. ",
+            text_color="dimgray",
+        )
         self.horizontal_label.grid(row=12, column=0, padx=5, sticky="e")
         self.horizontal_entry.grid(row=12, column=1, padx=5, sticky="we")
         self.horizontal_description.grid(row=13, column=0, columnspan=2, padx=5, sticky="e")
 
         self.angle_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Angle (deg): ")
-        self.angle_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 0")
-        self.angle_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Set the angle of process. Measured respect to the vertical line. Default = 0. ", text_color="dimgray",)
+        self.angle_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: 0.0")
+        self.angle_description = ctk.CTkLabel(
+            self.entry_frame,
+            font=fonts.desc_font,
+            text="Angle respect to vertical line. Default = 0.0. ",
+            text_color="dimgray",
+        )
         self.angle_label.grid(row=14, column=0, padx=5, sticky="e")
         self.angle_entry.grid(row=14, column=1, padx=5, sticky="we")
         self.angle_description.grid(row=15, column=0, columnspan=2, padx=5, sticky="e")
@@ -182,7 +212,7 @@ class ProcessFrame(ctk.CTkFrame):
     def clear_all_entries(self) -> None:
         """clear all entries"""
         self.name_entry.delete(0, tk.END)
-        self.type_optionmenu.set("")
+        self.type_optionmenu.set("-")
         self.mask_optionmenu.set("No mask")
         self.material_scrollable_frame.clear_selection()
         self.ignore_material_scrollable_frame.clear_selection()

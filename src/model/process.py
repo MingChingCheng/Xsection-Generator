@@ -33,8 +33,8 @@ class ProcessDataDict(DataDict[ProcessData]):
             data.name = f"Process_{length + 1}"
 
         # type
-        if data.type == "":
-            data.type = "--"
+        if data.type == "-":
+            data.type = "-"
 
         # vertical
         if data.vertical == "":
