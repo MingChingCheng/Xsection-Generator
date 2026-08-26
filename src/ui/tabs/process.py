@@ -117,7 +117,6 @@ class ProcessFrame(ctk.CTkFrame):
         self.clear_button.grid(row=2, column=3, padx=5)
 
     def modify(self): ...
-    def remove(self): ...
 
     # def modify(self) -> None:
     #     """modify the selected mask data"""
@@ -158,12 +157,12 @@ class ProcessFrame(ctk.CTkFrame):
     #     self.add_button.configure(text="Add", command=self.add)
     #     self.clear_button.configure(text="Clear", command=self.clear_all_entries)
 
-    # def remove(self) -> None:
-    #     """remove selected mask data from listbox"""
-    #     index = self.listbox_frame._selected_index()
-    #     if index is not None:
-    #         self.mask_data_dict.remove_data(index)
-    #         self.listbox_frame.refresh_listbox()
+    def remove(self) -> None:
+        """remove selected process data from listbox"""
+        index = self.listbox_frame._selected_index()
+        if index is not None:
+            self.process_data_dict.remove_data(index)
+            self.listbox_frame.refresh_listbox()
 
     def add(self) -> None:
         """add a new process to listbox"""
