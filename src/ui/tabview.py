@@ -2,10 +2,12 @@ import customtkinter as ctk
 
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
+from src.model.output import OutputData
 from src.model.process import ProcessDataDict
 from src.model.project import ProjectData
 from src.ui.tabs.mask import MaskFrame
 from src.ui.tabs.material import MaterialFrame
+from src.ui.tabs.output import OutputFrame
 from src.ui.tabs.process import ProcessFrame
 from src.ui.tabs.project import ProjectFrame
 
@@ -56,8 +58,8 @@ class TabView(ctk.CTkTabview):
         )
         self.process_frame.grid(row=0, column=0, sticky="nsew")
 
-        # self.output_frame = OutputFrame(self.tabs[3], fonts)
-        # self.output_frame.grid(row=0, column=0, sticky="nsew")
+        self.output_frame = OutputFrame(self.tabs[4], fonts)
+        self.output_frame.grid(row=0, column=0, sticky="nsew")
 
     def get_project_data(self) -> ProjectData:
         return self.project_frame.get_data()
