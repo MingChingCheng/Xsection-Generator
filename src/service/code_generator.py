@@ -182,7 +182,7 @@ class CodeGenerator:
 
     def write_output(self, file: IO) -> None:
         for material in self.material_data_dict.values():
-            file.write(f"output({material.option_string()},")
+            file.write(f"output(\"{material.option_string()}\",")
             file.write(f" {material.name})\n")
 
         # end of output data
