@@ -15,9 +15,9 @@ from src.ui.tabs.project import ProjectFrame
 
 
 class TabView(ctk.CTkTabview):
-    def __init__(self, master, fonts, export_file_with_data: Callable):
+    def __init__(self, master, fonts, export_xs_file: Callable):
         super().__init__(master)
-        self.export_file_with_data = export_file_with_data
+        self.export_xs_file = export_xs_file
 
         # create tabs
         self.tab_names = [
@@ -61,7 +61,9 @@ class TabView(ctk.CTkTabview):
         )
         self.process_frame.grid(row=0, column=0, sticky="nsew")
 
-        self.output_frame = OutputFrame(self.tabs[4], fonts, on_export=self._export_file)
+        self.output_frame = OutputFrame(
+            self.tabs[4], fonts, on_export=self._export_xs_file
+        )
         self.output_frame.grid(row=0, column=0, sticky="nsew")
 
     def get_project_data(self) -> ProjectData:
@@ -85,5 +87,5 @@ class TabView(ctk.CTkTabview):
     def _update_process_material_data(self, material_data_dict: MaterialDataDict) -> None:
         self.process_frame.update_material_data(material_data_dict)
 
-    def _export_file(self) -> None:
-        self.export_file_with_data()
+    def _export_xs_file(self) -> None:
+        self.export_xs_file()

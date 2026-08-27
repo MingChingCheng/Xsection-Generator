@@ -2,11 +2,11 @@ import os
 import time
 from typing import IO
 
-from src.model.project import ProjectData
-from src.model.output import OutputData
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
+from src.model.output import OutputData
 from src.model.process import ProcessDataDict
+from src.model.project import ProjectData
 
 
 class CodeGenerator:
@@ -95,7 +95,7 @@ class CodeGenerator:
         file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
 
         # resolution, height, depth, below
-        file.write("Setting resolution (um)\n")
+        file.write("# Setting resolution (um)\n")
         file.write(f"dbu({self.project_data.resolution})\n")
         file.write("# setting view of height, above surface substrate\n")
         file.write(f"height(vertical({self.project_data.height}))\n")
@@ -119,7 +119,7 @@ class CodeGenerator:
                 file.write(f"{name} = layer({number}).inverted\n")
 
         # write substrate data
-        file.write("substrate = bulk\n")
+        file.write("Substrate = bulk\n")
 
         # end of mask data
         file.write("\n")
@@ -145,7 +145,7 @@ class CodeGenerator:
                 file.write(f"{material} = deposit({v}, {h}, :mode => :round)\n")
 
             elif process_data.type == "Grow":
-                mask = process_data.mask
+                mask = process_data.mask.split(" ")[0]
                 material = process_data.material[0]
                 ignored_material = self._material_string(process_data.ignore_material)
                 v = process_data.vertical
@@ -182,7 +182,7 @@ class CodeGenerator:
 
     def write_output(self, file: IO) -> None:
         for material in self.material_data_dict.values():
-            file.write(f"output({material.option_string()},")
+            file.write(f"output(\"{material.option_string()}\",")
             file.write(f" {material.name})\n")
 
         # end of output data
