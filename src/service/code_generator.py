@@ -74,10 +74,22 @@ class CodeGenerator:
         file.write("\n")
 
     def write_project_data(self, file: IO):
+        # project information
         file.write(f"# Project: {self.project_data.project_name}\n")
         file.write(f"# Date: {time.strftime('%Y-%m-%d')}\n")
         file.write("\n")
-        file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
-        file.write(f"dbu({self.project_data.resolution})\n")
 
-    
+        # z scaling factor
+        file.write("# only the scale of Z direction will be changed\n")
+        file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
+
+        # resolution, height, depth, below
+        file.write("Setting resolution (um)\n")
+        file.write(f"dbu({self.project_data.resolution})\n")
+        file.write("# setting view of height, above surface substrate\n")
+        file.write(f"height(vertical({self.project_data.height}))\n")
+        file.write("# setting view of depth, below surface of substrate\n")
+        file.write(f"depth(vertical({self.project_data.depth}))\n")
+        file.write("# setting view of below, below backside surface of substrate\n")
+        file.write(f"below(vertical({self.project_data.below}))\n")
+
