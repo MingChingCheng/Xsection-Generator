@@ -78,6 +78,6 @@ class OutputFrame(ctk.CTkFrame):
 
     def get_data(self) -> OutputData:
         return OutputData(
-            path=self.path_textbox.get("0.0", "end"),
+            path=self.path_textbox.get("0.0", "end").replace("\n", ""),
             steps=self.step_checkbox.get()
         )

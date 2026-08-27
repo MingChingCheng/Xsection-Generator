@@ -2,11 +2,11 @@ import os
 import time
 from typing import IO
 
-from src.model.project import ProjectData
-from src.model.output import OutputData
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
+from src.model.output import OutputData
 from src.model.process import ProcessDataDict
+from src.model.project import ProjectData
 
 
 class CodeGenerator:
