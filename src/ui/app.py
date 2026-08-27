@@ -1,6 +1,6 @@
-import customtkinter as ctk
-import tkinter as tk
 from tkinter import messagebox
+
+import customtkinter as ctk
 
 from src.model.basic import Data, DataDict
 from src.service.code_generator import CodeGenerator
