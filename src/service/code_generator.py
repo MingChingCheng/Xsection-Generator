@@ -1,5 +1,6 @@
 import os
 import time
+from typing import IO
 
 from src.model.project import ProjectData
 from src.model.output import OutputData
@@ -27,6 +28,7 @@ class CodeGenerator:
         file_name_with_path = self.initialize_file_name_with_path()
         
         with open(file_name_with_path, "w") as file:
+            self.write_built_in_functions(file)
             self.write_project_data(file)
 
     def initialize_file_name_with_path(self) -> str:
@@ -53,5 +55,29 @@ class CodeGenerator:
         else:
             return os.path.join(path, filename)
 
-    def write_project_data(self, file):
+    def write_built_in_functions(self, file: IO):
+        file.write("def vertical(input_thickness)\n")
+        file.write("    # multiple thickness by a scaling factor\n")
+        file.write("    out = Z_SCALE * input_thickness\n")
+        file.write("    return out\n")
+        file.write("end\n")
+        file.write("\n")
+        file.write("def angle(input_angle)\n")
+        file.write("    # change angle into radius\n")
+        file.write("    input_angle = Math::PI * input_angle / 180\n")
+        file.write("    # get new angle after scaling in radius\n")
+        file.write("    out = Math.atan( Math.tan(input_angle) / Z_SCALE )\n")
+        file.write("    # change new angle into degree\n")
+        file.write("    out = out / Math::PI * 180\n")
+        file.write("    return out\n")
+        file.write("end\n")
+        file.write("\n")
+
+    def write_project_data(self, file: IO):
         file.write(f"# Project: {self.project_data.project_name}\n")
+        file.write(f"# Date: {time.strftime('%Y-%m-%d')}\n")
+        file.write("\n")
+        file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
+        file.write(f"dbu({self.project_data.resolution})\n")
+
+    
