@@ -1,4 +1,6 @@
 import customtkinter as ctk
+import tkinter as tk
+from tkinter import messagebox
 
 from src.model.basic import Data, DataDict
 from src.service.code_generator import CodeGenerator
@@ -45,6 +47,9 @@ class App(ctk.CTk):
             process_data_dict=self.tabview.get_process_data(),
             output_data=self.tabview.get_output_data()
         )
+
+        # show a message box to inform file has been exported
+        messagebox.showinfo("Export", "File has been exported successfully.")
         
     # def export_file_with_data(self) -> None:
         # # export the data to a json file
