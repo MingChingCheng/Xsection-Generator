@@ -145,7 +145,7 @@ class CodeGenerator:
                 file.write(f"{material} = deposit({v}, {h}, :mode => :round)\n")
 
             elif process_data.type == "Grow":
-                mask = process_data.mask
+                mask = process_data.mask.split(" ")[0]
                 material = process_data.material[0]
                 ignored_material = self._material_string(process_data.ignore_material)
                 v = process_data.vertical
