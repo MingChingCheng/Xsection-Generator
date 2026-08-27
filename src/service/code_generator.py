@@ -31,6 +31,8 @@ class CodeGenerator:
             self.write_project_information(file)
             self.write_built_in_functions(file)
             self.write_project_data(file)
+            self.write_mask_data(file)
+            self.write_process_data(file)
 
     def initialize_file_name_with_path(self) -> str:
         """return the file name with path"""
@@ -56,14 +58,16 @@ class CodeGenerator:
         else:
             return os.path.join(path, filename)
 
-    def write_project_information(self, file: IO):
+    def write_project_information(self, file: IO) -> None:
         # project information
         file.write(f"# Project: {self.project_data.project_name}\n")
         file.write(f"# Date: {time.strftime('%Y-%m-%d')}\n")
+
+        # end of project information
         file.write("\n")
         file.write("\n")
 
-    def write_built_in_functions(self, file: IO):
+    def write_built_in_functions(self, file: IO) -> None:
         file.write("def vertical(input_thickness)\n")
         file.write("    # multiple thickness by a scaling factor\n")
         file.write("    out = Z_SCALE * input_thickness\n")
@@ -79,10 +83,12 @@ class CodeGenerator:
         file.write("    out = out / Math::PI * 180\n")
         file.write("    return out\n")
         file.write("end\n")
+
+        # end of built-in functions
         file.write("\n")
         file.write("\n")
 
-    def write_project_data(self, file: IO):
+    def write_project_data(self, file: IO) -> None:
         # z scaling factor
         file.write("# only the scale of Z direction will be changed\n")
         file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
@@ -96,7 +102,80 @@ class CodeGenerator:
         file.write(f"depth(vertical({self.project_data.depth}))\n")
         file.write("# setting view of below, below backside surface of substrate\n")
         file.write(f"below(vertical({self.project_data.below}))\n")
+
+        # end of project data
+        file.write("\n")
         file.write("\n")
 
-    def write_mask_data(self, file: IO):
-        
+    def write_mask_data(self, file: IO) -> None:
+        # write mask data
+        for mask_data in self.mask_data_dict.values():
+            name = f"{mask_data.name}_layer"
+            number = f"\"{mask_data.gdsii_number}/{mask_data.datatype}\""
+            if mask_data.invert == "0" or mask_data.invert == 0:
+                file.write(f"{name} = layer({number})\n")
+            else:
+                file.write(f"{name} = layer({number}).inverted\n")
+
+        # write substrate data
+        file.write("substrate = bulk\n")
+
+        # end of mask data
+        file.write("\n")
+        file.write("\n")
+
+    def write_process_data(self, file: IO) -> None:
+        # write process data
+        for index, process_data in self.process_data_dict.items():
+
+            # note the process name
+            file.write(f"# Process {index}: {process_data.name}\n")
+
+            # flip for backside processing
+            if process_data.backside == 1 or process_data.backside == "1":
+                file.write("flip\n")
+
+            if process_data.type == "-":
+                pass
+            elif process_data.type == "Deposit":
+                material = process_data.material[0]
+                v = process_data.vertical
+                h = process_data.horizontal
+                file.write(f"{material} = deposit({v}, {h}, :mode => :round)\n")
+
+            elif process_data.type == "Grow":
+                mask = process_data.mask
+                material = process_data.material[0]
+                ignored_material = self.material_string(process_data.ignore_material)
+                v = process_data.vertical
+                h = process_data.horizontal
+                file.write(f"{material} = mask({mask}).grow(")
+                file.write(f"{v}, {h}, :mode => :round, :through => {ignored_material})\n")
+
+            elif process_data.type == "Etch":
+                mask = process_data.mask
+                material = self.material_string(process_data.material)
+                ignored_material = self.material_string(process_data.ignore_material)
+                v = process_data.vertical
+                h = process_data.horizontal
+                a = process_data.angle
+                file.write(f"mask({mask}).etch(")
+                file.write(f"{v}, {h}, :into => {material}, :through => {ignored_material}, :taper => {a})\n")
+
+            # flip back to front side after backside processing
+            if process_data.backside == 1 or process_data.backside == "1":
+                file.write("flip\n")
+
+        # end of process data
+        file.write("\n")
+        file.write("\n")
+
+
+    def material_string(self, lst) -> str:
+        if lst == []:
+            return "[]"
+        else:
+            string = ""
+            for material in lst:
+                string += f"{material}, "
+            return "[" + string[:-2] + "]"
