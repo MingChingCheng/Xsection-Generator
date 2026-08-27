@@ -28,6 +28,7 @@ class CodeGenerator:
         file_name_with_path = self.initialize_file_name_with_path()
         
         with open(file_name_with_path, "w") as file:
+            self.write_project_information(file)
             self.write_built_in_functions(file)
             self.write_project_data(file)
 
@@ -55,6 +56,13 @@ class CodeGenerator:
         else:
             return os.path.join(path, filename)
 
+    def write_project_information(self, file: IO):
+        # project information
+        file.write(f"# Project: {self.project_data.project_name}\n")
+        file.write(f"# Date: {time.strftime('%Y-%m-%d')}\n")
+        file.write("\n")
+        file.write("\n")
+
     def write_built_in_functions(self, file: IO):
         file.write("def vertical(input_thickness)\n")
         file.write("    # multiple thickness by a scaling factor\n")
@@ -72,13 +80,9 @@ class CodeGenerator:
         file.write("    return out\n")
         file.write("end\n")
         file.write("\n")
-
-    def write_project_data(self, file: IO):
-        # project information
-        file.write(f"# Project: {self.project_data.project_name}\n")
-        file.write(f"# Date: {time.strftime('%Y-%m-%d')}\n")
         file.write("\n")
 
+    def write_project_data(self, file: IO):
         # z scaling factor
         file.write("# only the scale of Z direction will be changed\n")
         file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
@@ -92,4 +96,7 @@ class CodeGenerator:
         file.write(f"depth(vertical({self.project_data.depth}))\n")
         file.write("# setting view of below, below backside surface of substrate\n")
         file.write(f"below(vertical({self.project_data.below}))\n")
+        file.write("\n")
 
+    def write_mask_data(self, file: IO):
+        
