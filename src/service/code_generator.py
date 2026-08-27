@@ -119,7 +119,7 @@ class CodeGenerator:
                 file.write(f"{name} = layer({number}).inverted\n")
 
         # write substrate data
-        file.write("substrate = bulk\n")
+        file.write("Substrate = bulk\n")
 
         # end of mask data
         file.write("\n")
