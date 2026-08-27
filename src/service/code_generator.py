@@ -95,7 +95,7 @@ class CodeGenerator:
         file.write(f"Z_SCALE = {self.project_data.z_scaling}\n")
 
         # resolution, height, depth, below
-        file.write("Setting resolution (um)\n")
+        file.write("# Setting resolution (um)\n")
         file.write(f"dbu({self.project_data.resolution})\n")
         file.write("# setting view of height, above surface substrate\n")
         file.write(f"height(vertical({self.project_data.height}))\n")
