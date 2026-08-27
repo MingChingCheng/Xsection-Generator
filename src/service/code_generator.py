@@ -33,6 +33,7 @@ class CodeGenerator:
             self.write_project_data(file)
             self.write_mask_data(file)
             self.write_process_data(file)
+            self.write_output(file)
 
     def initialize_file_name_with_path(self) -> str:
         """return the file name with path"""
@@ -179,3 +180,11 @@ class CodeGenerator:
             for material in lst:
                 string += f"{material}, "
             return "[" + string[:-2] + "]"
+
+    def write_output(self, file: IO) -> None:
+        for material in self.material_data_dict.values():
+            file.write(f"output({material.option_string()},")
+            file.write(f" {material.name})\n")
+
+        # end of output data
+        file.write("\n")
