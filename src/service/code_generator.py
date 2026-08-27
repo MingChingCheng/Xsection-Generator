@@ -147,7 +147,7 @@ class CodeGenerator:
             elif process_data.type == "Grow":
                 mask = process_data.mask
                 material = process_data.material[0]
-                ignored_material = self.material_string(process_data.ignore_material)
+                ignored_material = self._material_string(process_data.ignore_material)
                 v = process_data.vertical
                 h = process_data.horizontal
                 file.write(f"{material} = mask({mask}).grow(")
@@ -155,8 +155,8 @@ class CodeGenerator:
 
             elif process_data.type == "Etch":
                 mask = process_data.mask
-                material = self.material_string(process_data.material)
-                ignored_material = self.material_string(process_data.ignore_material)
+                material = self._material_string(process_data.material)
+                ignored_material = self._material_string(process_data.ignore_material)
                 v = process_data.vertical
                 h = process_data.horizontal
                 a = process_data.angle
@@ -171,8 +171,7 @@ class CodeGenerator:
         file.write("\n")
         file.write("\n")
 
-
-    def material_string(self, lst) -> str:
+    def _material_string(self, lst) -> str:
         if lst == []:
             return "[]"
         else:
