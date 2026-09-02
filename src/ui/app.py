@@ -44,14 +44,14 @@ class App(ctk.CTk):
             output_data=self.tabview.get_output_data()
         )
 
-        successfully = code_generator.generate_code()
+        result = code_generator.generate_code()
 
         # show a message box to inform file has been exported
-        if successfully is True:
+        if result is True:
             messagebox.showinfo("Export", "File has been exported successfully.")
         # show a message box to inform the error code
-        elif isinstance(successfully, str):
-            messagebox.showerror("Export Error", f"Error generating code: {successfully}")
+        elif isinstance(result, str):
+            messagebox.showerror("Export Error", f"{result}")
         
     def save_project_as(self) -> None:
         # export the data to a json file
