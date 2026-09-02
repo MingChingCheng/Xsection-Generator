@@ -14,7 +14,6 @@ class MenuBar:
         self.file = self.menu.add_cascade("File")
         file_dropdown = CustomDropdownMenu(widget=self.file)
         file_dropdown.add_option(option="Open project ...", command=self.open_project)
-        file_dropdown.add_option(option="Save project ", command=self.save_project)
         file_dropdown.add_option(option="Save project as ...", command=commands["save_as_command"])
 
         # create About menu
@@ -25,9 +24,6 @@ class MenuBar:
 
     def open_project(self):
         print("Open project")
-
-    def save_project(self):
-        print("Save project")
 
     def about_app(self):
         print("About Xsection Generator")
