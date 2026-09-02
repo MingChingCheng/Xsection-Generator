@@ -76,9 +76,9 @@ class TabView(ctk.CTkTabview):
     def get_mask_data(self) -> MaskDataDict:
         return self.mask_frame.get_data()
 
-    # def set_mask_data(self, mask_data_dict: MaskDataDict) -> None:
-    #     self.mask_frame.set_data(mask_data_dict)
-    #     self.process_frame.update_mask_data(mask_data_dict)
+    def set_mask_data(self, mask_data_dict: MaskDataDict) -> None:
+        self.mask_frame.set_data(mask_data_dict)
+        self.process_frame.update_mask_data(mask_data_dict)
 
     def get_material_data(self) -> MaterialDataDict:
         return self.material_frame.get_data()

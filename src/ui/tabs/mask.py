@@ -160,3 +160,10 @@ class MaskFrame(ctk.CTkFrame):
     def _notify_change(self) -> None:
         if self.on_change is not None:
             self.on_change(self.mask_data_dict)
+
+    def set_data(self, mask_data_dict: MaskDataDict) -> None:
+        """set the mask data dict"""
+        for mask_data in mask_data_dict.values():
+            self.mask_data_dict.append_data(mask_data)
+            
+        self.listbox_frame.refresh_listbox()
