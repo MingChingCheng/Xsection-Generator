@@ -286,6 +286,9 @@ class ProcessFrame(ctk.CTkFrame):
 
     def _process_layout(self, choice) -> None:
         """show/hide the entry fields based on the process type"""
+        self.entry_frame.update_idletasks()
+        self.entry_frame._parent_canvas.yview_moveto(0.0)
+
         if choice == "-":
             self.mask_label.grid_remove()
             self.mask_optionmenu.grid_remove()
@@ -397,6 +400,10 @@ class ProcessFrame(ctk.CTkFrame):
 
             self.backside_checkbox.grid()
             self.backside_description.grid()
+
+
+        
+
 
 class CheckList(ctk.CTkScrollableFrame):
     def __init__(self, master, fonts: MyFonts, material_data_dict: MaterialDataDict):
