@@ -261,7 +261,17 @@ class ProcessFrame(ctk.CTkFrame):
         self.material_scrollable_frame.update_items(material_data_dict)
         self.ignore_material_scrollable_frame.update_items(material_data_dict)
 
-    
+    def set_data(self, process_data_dict: ProcessDataDict) -> None:
+        """set the process data dict"""
+        # clear the current process data dict
+        self.process_data_dict.clear()
+
+        # append the new process data dict
+        for process_data in process_data_dict.values():
+            self.process_data_dict.append_data(process_data)
+
+        self.listbox_frame.listbox.delete("all")
+        self.listbox_frame.refresh_listbox()
 
 class CheckList(ctk.CTkScrollableFrame):
     def __init__(self, master, fonts: MyFonts, material_data_dict: MaterialDataDict):

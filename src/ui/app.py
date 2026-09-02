@@ -2,8 +2,8 @@ from tkinter import messagebox
 
 import customtkinter as ctk
 
-from src.model.basic import Data, DataDict
 from src.service.code_generator import CodeGenerator
+from src.service.project_saver import ProjectSaver
 from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
@@ -25,19 +25,15 @@ class App(ctk.CTk):
         fonts = MyFonts()
 
         # Menubar
-        self.menu_bar = MenuBar(self)
+        self.menu_bar = MenuBar(self,
+                                open_command=self.open_project, 
+                                save_as_command=self.save_project_as)
 
         # Tab view
         self.tabview = TabView(self, fonts, export_xs_file=self.export_xs_file)
         self.tabview.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
         for button in self.tabview._segmented_button._buttons_dict.values():
             button.configure(font=fonts.tab_font, border_spacing=6, width=120)
-
-    def get_all_data(self) -> dict[str, Data | DataDict]:
-        data = {"project": self.tabview.get_project_data(),
-                "mask": self.tabview.get_mask_data()}
-        
-        return data
 
     def export_xs_file(self) -> None:
         _ = CodeGenerator(
@@ -51,14 +47,29 @@ class App(ctk.CTk):
         # show a message box to inform file has been exported
         messagebox.showinfo("Export", "File has been exported successfully.")
         
-    # def export_file_with_data(self) -> None:
-        # # export the data to a json file
-        # project_data: ProjectData = self.tabview.get_project_data()
+    def save_project_as(self) -> None:
+        # export the data to a json file
+        project_saver = ProjectSaver(all_data=self.tabview.get_all_data())
+        
+        file_name_with_path = ctk.filedialog.asksaveasfilename(title="Save Project ...", 
+                                                               defaultextension=".json", 
+                                                               filetypes=[("JSON files", "*.json")])
 
-        # nested_dict = {}
-        # nested_dict["project"] = asdict(project_data)
+        project_saver.save_project_as_json(file_name_with_path)
 
-        # path = data["output"].path[0:-1]
-        # file_name_with_path = os.path.join(path, data["project"].project_name + ".json")
-        # with open(file_name_with_path, "w", encoding="utf-8") as f:
-        #     json.dump(nested_dict, f, indent=4)
+    def open_project(self) -> None:
+        # read the data from a json file
+        file_name_with_path = ctk.filedialog.askopenfilename(
+            title="Open Project ...",
+            defaultextension=".json",
+            filetypes=[("JSON files", "*.json")],
+        )
+
+        if file_name_with_path:
+            # read the data, transfer to Data and DataDict
+            project_saver = ProjectSaver()
+            project_saver.read_project_from_json(file_name_with_path)
+
+            # set the data to the tabview
+            self.tabview.set_all_data(project_saver)
+

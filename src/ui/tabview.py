@@ -2,6 +2,8 @@ from collections.abc import Callable
 
 import customtkinter as ctk
 
+from service.project_saver import ProjectSaver
+from src.model.basic import Data, DataDict
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
 from src.model.output import OutputData
@@ -69,17 +71,61 @@ class TabView(ctk.CTkTabview):
     def get_project_data(self) -> ProjectData:
         return self.project_frame.get_data()
 
+    def set_project_data(self, project_data: ProjectData) -> None:
+        self.project_frame.set_data(project_data)
+
     def get_mask_data(self) -> MaskDataDict:
         return self.mask_frame.get_data()
+
+    def set_mask_data(self, mask_data_dict: MaskDataDict) -> None:
+        self.mask_frame.set_data(mask_data_dict)
+        self.process_frame.update_mask_data(mask_data_dict)
 
     def get_material_data(self) -> MaterialDataDict:
         return self.material_frame.get_data()
 
+    def set_material_data(self, material_data_dict: MaterialDataDict) -> None:
+        self.material_frame.set_data(material_data_dict)
+        self.process_frame.update_material_data(material_data_dict)
+
     def get_process_data(self) -> ProcessDataDict:
         return self.process_frame.get_data()
 
+    def set_process_data(self, process_data_dict: ProcessDataDict) -> None:
+        self.process_frame.set_data(process_data_dict)
+
     def get_output_data(self) -> OutputData:
         return self.output_frame.get_data()
+
+    def set_output_data(self, output_data: OutputData) -> None:
+        self.output_frame.set_data(output_data)
+    
+    def get_all_data(self) -> dict[str, Data | DataDict]:
+        return {
+            "project": self.get_project_data(),
+            "mask": self.get_mask_data(),
+            "material": self.get_material_data(),
+            "process": self.get_process_data(),
+            "output": self.get_output_data()
+        }
+
+    def set_all_data(self, project_saver: ProjectSaver) -> None:
+        """Set all data in the tabview using a ProjectSaver instance."""
+        # project frame
+        if isinstance(project_saver.project_data, ProjectData):
+            self.set_project_data(project_saver.project_data)
+        # mask frame
+        if isinstance(project_saver.mask_data_dict, MaskDataDict):
+            self.set_mask_data(project_saver.mask_data_dict)
+        # material frame
+        if isinstance(project_saver.material_data_dict, MaterialDataDict):
+            self.set_material_data(project_saver.material_data_dict)
+        # process frame
+        if isinstance(project_saver.process_data_dict, ProcessDataDict):
+            self.set_process_data(project_saver.process_data_dict)
+        # output frame
+        if isinstance(project_saver.output_data, OutputData):
+            self.set_output_data(project_saver.output_data)
 
     def _update_mask_process_data(self, mask_data_dict: MaskDataDict) -> None:
         self.process_frame.update_mask_data(mask_data_dict)
