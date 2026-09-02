@@ -13,7 +13,7 @@ class MenuBar:
         # create File menu
         self.file = self.menu.add_cascade("File")
         file_dropdown = CustomDropdownMenu(widget=self.file)
-        file_dropdown.add_option(option="Open project ...", command=self.open_project)
+        file_dropdown.add_option(option="Open project ...", command=commands["open_command"])
         file_dropdown.add_option(option="Save project as ...", command=commands["save_as_command"])
 
         # create About menu

@@ -25,7 +25,9 @@ class App(ctk.CTk):
         fonts = MyFonts()
 
         # Menubar
-        self.menu_bar = MenuBar(self, save_as_command=self.save_project_as)
+        self.menu_bar = MenuBar(self,
+                                open_command=self.open_project, 
+                                save_as_command=self.save_project_as)
 
         # Tab view
         self.tabview = TabView(self, fonts, export_xs_file=self.export_xs_file)
@@ -54,3 +56,21 @@ class App(ctk.CTk):
                                                                filetypes=[("JSON files", "*.json")])
 
         project_saver.save_project_as_json(file_name_with_path)
+
+    def open_project(self) -> None:
+        # read the data from a json file
+        file_name_with_path = ctk.filedialog.askopenfilename(
+            title="Open Project ...",
+            defaultextension=".json",
+            filetypes=[("JSON files", "*.json")],
+        )
+
+        if file_name_with_path:
+            project_saver = ProjectSaver()
+            project_saver.read_project_from_json(file_name_with_path)
+            print("Project data read from JSON:")
+            print("Project Data:", project_saver.project_data)
+            print("Mask Data Dict:", project_saver.mask_data_dict)
+            print("Material Data Dict:", project_saver.material_data_dict)
+            print("Process Data Dict:", project_saver.process_data_dict)
+            print("Output Data:", project_saver.output_data)
