@@ -75,7 +75,7 @@ class ProjectSaver:
             self.process_data_dict = self.dict_to_data("process", data_dict["process"])
             self.output_data = self.dict_to_data("output", data_dict["output"])
 
-    def dict_to_data(self, key: str, data_dict: dict) -> Data | DataDict:
+    def dict_to_data(self, key: str, data_dict: dict) -> ProjectData | MaskDataDict | MaterialDataDict | ProcessDataDict | OutputData:
         """transform a dictionary to Data or DataDict"""
         if key == "project":
             return ProjectData(**data_dict)
