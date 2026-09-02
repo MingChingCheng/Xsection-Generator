@@ -25,6 +25,9 @@ class CodeGenerator:
         self.process_data_dict = process_data_dict
         self.output_data = output_data
 
+        # record used materials
+        self.used_materials = []
+
         file_name_with_path = self.initialize_file_name_with_path()
         
         with open(file_name_with_path, "w") as file:
@@ -143,6 +146,7 @@ class CodeGenerator:
 
                 # material
                 material = process_data.material[0]
+                self.used_materials.append(material)
                 file.write(f"{material} = deposit(")
 
                 # dimensions
@@ -160,6 +164,7 @@ class CodeGenerator:
 
                 # material
                 material = process_data.material[0]
+                self.used_materials.append(material)
                 file.write(f"{material} = ")
 
                 # mask
@@ -224,3 +229,6 @@ class CodeGenerator:
 
         # end of output data
         file.write("\n")
+
+    def snapshot(self, file: IO) -> None:
+
