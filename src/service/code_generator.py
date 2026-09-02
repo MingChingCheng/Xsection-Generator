@@ -26,7 +26,8 @@ class CodeGenerator:
         self.output_data = output_data
 
         # record used materials
-        self.used_materials = []
+        self.used_materials = ["Substrate"]
+
 
         file_name_with_path = self.initialize_file_name_with_path()
         
@@ -209,6 +210,8 @@ class CodeGenerator:
             if process_data.backside == 1 or process_data.backside == "1":
                 file.write("flip\n")
 
+            self.write_snapshot(file, process_data.name)
+
         # end of process data
         file.write("\n")
         file.write("\n")
@@ -230,5 +233,12 @@ class CodeGenerator:
         # end of output data
         file.write("\n")
 
-    def snapshot(self, file: IO) -> None:
+    def write_snapshot(self, file: IO, process_name: str) -> None:
+        if self.output_data.steps == "1" or self.output_data.steps == 1:
+ 
+            for material in self.material_data_dict.values():
+                if material.name in self.used_materials:
+                    file.write(f"output(\"{material.option_string()}\",")
+                    file.write(f" {material.name})\n")
 
+            file.write(f"snapshot(\"{process_name}\")\n")
