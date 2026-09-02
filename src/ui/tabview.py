@@ -2,13 +2,13 @@ from collections.abc import Callable
 
 import customtkinter as ctk
 
-from service.project_saver import ProjectSaver
 from src.model.basic import Data, DataDict
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
 from src.model.output import OutputData
 from src.model.process import ProcessDataDict
 from src.model.project import ProjectData
+from src.service.project_saver import ProjectSaver
 from src.ui.tabs.mask import MaskFrame
 from src.ui.tabs.material import MaterialFrame
 from src.ui.tabs.output import OutputFrame
