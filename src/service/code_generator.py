@@ -30,9 +30,8 @@ class CodeGenerator:
 
     def generate_code(self) -> bool | str:
         """Generate the code and write it to a file"""
-        file_name_with_path = self.initialize_file_name_with_path()
-
         try:
+            file_name_with_path = self.initialize_file_name_with_path()
             with open(file_name_with_path, "w") as file:
                 self.write_project_information(file)
                 self.write_built_in_functions(file)
