@@ -74,5 +74,5 @@ class App(ctk.CTk):
             self.tabview.set_project_data(project_saver.project_data)
             self.tabview.set_mask_data(project_saver.mask_data_dict)
             self.tabview.set_material_data(project_saver.material_data_dict)
-            # self.tabview.set_process_data(project_saver.process_data_dict)
+            self.tabview.set_process_data(project_saver.process_data_dict)
             # self.tabview.set_output_data(project_saver.output_data)

@@ -90,8 +90,8 @@ class TabView(ctk.CTkTabview):
     def get_process_data(self) -> ProcessDataDict:
         return self.process_frame.get_data()
 
-    # def set_process_data(self, process_data_dict: ProcessDataDict) -> None:
-    #     self.process_frame.set_data(process_data_dict)
+    def set_process_data(self, process_data_dict: ProcessDataDict) -> None:
+        self.process_frame.set_data(process_data_dict)
 
     def get_output_data(self) -> OutputData:
         return self.output_frame.get_data()
