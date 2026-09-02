@@ -54,13 +54,8 @@ class App(ctk.CTk):
         
     def save_project_as(self) -> None:
         # export the data to a json file
-        project_saver = ProjectSaver(
-            project_data=self.tabview.get_project_data(),
-            mask_data_dict=self.tabview.get_mask_data(),
-            material_data_dict=self.tabview.get_material_data(),
-            process_data_dict=self.tabview.get_process_data(),
-            output_data=self.tabview.get_output_data()
-        )
+        project_saver = ProjectSaver(all_data=self.tabview.get_all_data())
+        
         file_name_with_path = ctk.filedialog.asksaveasfilename(title="Save Project ...", 
                                                                defaultextension=".json", 
                                                                filetypes=[("JSON files", "*.json")])

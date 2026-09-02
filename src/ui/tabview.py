@@ -2,6 +2,7 @@ from collections.abc import Callable
 
 import customtkinter as ctk
 
+from src.model.basic import Data, DataDict
 from src.model.mask import MaskDataDict
 from src.model.material import MaterialDataDict
 from src.model.output import OutputData
@@ -80,6 +81,15 @@ class TabView(ctk.CTkTabview):
 
     def get_output_data(self) -> OutputData:
         return self.output_frame.get_data()
+    
+    def get_all_data(self) -> dict[str, Data | DataDict]:
+        return {
+            "project": self.get_project_data(),
+            "mask": self.get_mask_data(),
+            "material": self.get_material_data(),
+            "process": self.get_process_data(),
+            "output": self.get_output_data()
+        }
 
     def _update_mask_process_data(self, mask_data_dict: MaskDataDict) -> None:
         self.process_frame.update_mask_data(mask_data_dict)

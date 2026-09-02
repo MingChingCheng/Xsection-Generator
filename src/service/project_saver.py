@@ -2,39 +2,32 @@ import json
 from dataclasses import asdict
 
 from src.model.basic import Data, DataDict
-from src.model.mask import MaskDataDict
-from src.model.material import MaterialDataDict
-from src.model.output import OutputData
-from src.model.process import ProcessDataDict
-from src.model.project import ProjectData
 
 
 class ProjectSaver:
     def __init__(
             self,
-            project_data: ProjectData,
-            mask_data_dict: MaskDataDict,
-            material_data_dict: MaterialDataDict,
-            process_data_dict: ProcessDataDict,
-            output_data: OutputData
+            all_data: dict[str, Data | DataDict]
     ):
-        self.project_data = project_data
-        self.mask_data_dict = mask_data_dict
-        self.material_data_dict = material_data_dict
-        self.process_data_dict = process_data_dict
-        self.output_data = output_data
+        self.project_data = all_data["project"]
+        self.mask_data_dict = all_data["mask"]
+        self.material_data_dict = all_data["material"]
+        self.process_data_dict = all_data["process"]
+        self.output_data = all_data["output"]
 
-    def data_to_dict(self, data: Data) -> dict:
-        return asdict(data)
-
-    def data_dict_to_dict(self, data_dict: DataDict) -> dict:
-        return {key: asdict(value) for key, value in data_dict.items()}
+    def data_to_dict(self, data: Data | DataDict) -> dict:
+        """transform Data or DataDict to a dictionary"""
+        if isinstance(data, Data):
+            return asdict(data)
+        
+        if isinstance(data, DataDict):
+            return {key: asdict(value) for key, value in data.items()}
 
     def merge_dicts(self) -> dict:
         project_dict = self.data_to_dict(self.project_data)
-        mask_dict = self.data_dict_to_dict(self.mask_data_dict)
-        material_dict = self.data_dict_to_dict(self.material_data_dict)
-        process_dict = self.data_dict_to_dict(self.process_data_dict)
+        mask_dict = self.data_to_dict(self.mask_data_dict)
+        material_dict = self.data_to_dict(self.material_data_dict)
+        process_dict = self.data_to_dict(self.process_data_dict)
         output_dict = self.data_to_dict(self.output_data)
 
         return {"project": project_dict,
