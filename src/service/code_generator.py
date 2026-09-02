@@ -41,6 +41,7 @@ class CodeGenerator:
             # check data for errors
             self.data_checker.check_project_data(self.project_data)
             self.data_checker.check_mask_data_dict(self.mask_data_dict)
+            self.data_checker.check_material_data_dict(self.material_data_dict)
 
             with open(file_name_with_path, "w") as file:
                 self.write_project_information(file)

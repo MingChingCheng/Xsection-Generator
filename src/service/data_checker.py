@@ -77,4 +77,24 @@ class DataChecker:
         if datatype < 0:
             raise ValueError(f"{mask_data.name}'s Datatype '{mask_data.datatype}' must be greater than or equal to 0 !")
 
-        
+    def check_material_data_dict(self, material_data_dict: MaterialDataDict) -> None:
+        """Check the material data for errors"""
+        for material_data in material_data_dict.values():
+            self.check_material_data(material_data)
+
+    def check_material_data(self, material_data: MaterialData) -> None:
+        """Check the material data for errors"""
+        # material name
+        ## first char of name must be a letter
+        if ord(material_data.name[0]) < 65 or ord(material_data.name[0]) > 122:
+            raise ValueError(f"Material name '{material_data.name}' must start with a letter !")
+
+        # GDSII number
+        ## check if GDSII number is an integer
+        try:
+            gdsii_number = int(material_data.gdsii_number)
+        except ValueError:
+            raise ValueError(f"{material_data.name}'s GDSII number '{material_data.gdsii_number}' is not an integer !")
+        ## check if GDSII number is greater than or equal to 0
+        if gdsii_number < 0:
+            raise ValueError(f"{material_data.name}'s GDSII number '{material_data.gdsii_number}' must be greater than or equal to 0 !")
