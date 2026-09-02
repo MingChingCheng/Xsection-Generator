@@ -7,6 +7,7 @@ from src.model.material import MaterialDataDict
 from src.model.output import OutputData
 from src.model.process import ProcessDataDict
 from src.model.project import ProjectData
+from src.service.data_checker import DataChecker
 
 
 class CodeGenerator:
@@ -28,10 +29,18 @@ class CodeGenerator:
         # record used materials
         self.used_materials = ["Substrate"]
 
+        # create a data checker
+        self.data_checker = DataChecker()
+
     def generate_code(self) -> bool | str:
         """Generate the code and write it to a file"""
         try:
+            # make a unique file name with path
             file_name_with_path = self.initialize_file_name_with_path()
+
+            # check data for errors
+            self.data_checker.check_project_data(self.project_data)
+
             with open(file_name_with_path, "w") as file:
                 self.write_project_information(file)
                 self.write_built_in_functions(file)
