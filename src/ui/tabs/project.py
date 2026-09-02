@@ -68,3 +68,22 @@ class ProjectFrame(ctk.CTkFrame):
             depth=self.depth_entry.get() or "10",
             below=self.below_entry.get() or "10",
         )
+
+    def set_data(self, project_data: ProjectData) -> None:
+        self.project_name_entry.delete(0, ctk.END)
+        self.project_name_entry.insert(0, project_data.project_name)
+
+        self.z_scale_entry.delete(0, ctk.END)
+        self.z_scale_entry.insert(0, project_data.z_scaling)
+
+        self.resolution_entry.delete(0, ctk.END)
+        self.resolution_entry.insert(0, project_data.resolution)
+
+        self.height_entry.delete(0, ctk.END)
+        self.height_entry.insert(0, project_data.height)
+
+        self.depth_entry.delete(0, ctk.END)
+        self.depth_entry.insert(0, project_data.depth)
+
+        self.below_entry.delete(0, ctk.END)
+        self.below_entry.insert(0, project_data.below)

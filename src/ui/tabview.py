@@ -70,17 +70,34 @@ class TabView(ctk.CTkTabview):
     def get_project_data(self) -> ProjectData:
         return self.project_frame.get_data()
 
+    def set_project_data(self, project_data: ProjectData) -> None:
+        self.project_frame.set_data(project_data)
+
     def get_mask_data(self) -> MaskDataDict:
         return self.mask_frame.get_data()
+
+    # def set_mask_data(self, mask_data_dict: MaskDataDict) -> None:
+    #     self.mask_frame.set_data(mask_data_dict)
+    #     self.process_frame.update_mask_data(mask_data_dict)
 
     def get_material_data(self) -> MaterialDataDict:
         return self.material_frame.get_data()
 
+    # def set_material_data(self, material_data_dict: MaterialDataDict) -> None:
+    #     self.material_frame.set_data(material_data_dict)
+    #     self.process_frame.update_material_data(material_data_dict)
+
     def get_process_data(self) -> ProcessDataDict:
         return self.process_frame.get_data()
 
+    # def set_process_data(self, process_data_dict: ProcessDataDict) -> None:
+    #     self.process_frame.set_data(process_data_dict)
+
     def get_output_data(self) -> OutputData:
         return self.output_frame.get_data()
+
+    # def set_output_data(self, output_data: OutputData) -> None:
+    #     self.output_frame.set_data(output_data)
     
     def get_all_data(self) -> dict[str, Data | DataDict]:
         return {
