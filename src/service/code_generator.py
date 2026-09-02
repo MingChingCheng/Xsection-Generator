@@ -28,16 +28,22 @@ class CodeGenerator:
         # record used materials
         self.used_materials = ["Substrate"]
 
-
+    def generate_code(self) -> bool | str:
+        """Generate the code and write it to a file"""
         file_name_with_path = self.initialize_file_name_with_path()
+
+        try:
+            with open(file_name_with_path, "w") as file:
+                self.write_project_information(file)
+                self.write_built_in_functions(file)
+                self.write_project_data(file)
+                self.write_mask_data(file)
+                self.write_process_data(file)
+                self.write_output(file)
+            return True
         
-        with open(file_name_with_path, "w") as file:
-            self.write_project_information(file)
-            self.write_built_in_functions(file)
-            self.write_project_data(file)
-            self.write_mask_data(file)
-            self.write_process_data(file)
-            self.write_output(file)
+        except Exception as e:  # noqa: BLE001
+            return f"{e}"
 
     def initialize_file_name_with_path(self) -> str:
         """return the file name with path"""
