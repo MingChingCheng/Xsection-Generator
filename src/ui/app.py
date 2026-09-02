@@ -4,6 +4,7 @@ import customtkinter as ctk
 
 from src.model.basic import Data, DataDict
 from src.service.code_generator import CodeGenerator
+from src.service.project_saver import ProjectSaver
 from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
@@ -25,7 +26,7 @@ class App(ctk.CTk):
         fonts = MyFonts()
 
         # Menubar
-        self.menu_bar = MenuBar(self)
+        self.menu_bar = MenuBar(self, save_as_command=self.save_project_as)
 
         # Tab view
         self.tabview = TabView(self, fonts, export_xs_file=self.export_xs_file)
@@ -51,14 +52,17 @@ class App(ctk.CTk):
         # show a message box to inform file has been exported
         messagebox.showinfo("Export", "File has been exported successfully.")
         
-    # def export_file_with_data(self) -> None:
-        # # export the data to a json file
-        # project_data: ProjectData = self.tabview.get_project_data()
+    def save_project_as(self) -> None:
+        # export the data to a json file
+        project_saver = ProjectSaver(
+            project_data=self.tabview.get_project_data(),
+            mask_data_dict=self.tabview.get_mask_data(),
+            material_data_dict=self.tabview.get_material_data(),
+            process_data_dict=self.tabview.get_process_data(),
+            output_data=self.tabview.get_output_data()
+        )
+        file_name_with_path = ctk.filedialog.asksaveasfilename(title="Save Project ...", 
+                                                               defaultextension=".json", 
+                                                               filetypes=[("JSON files", "*.json")])
 
-        # nested_dict = {}
-        # nested_dict["project"] = asdict(project_data)
-
-        # path = data["output"].path[0:-1]
-        # file_name_with_path = os.path.join(path, data["project"].project_name + ".json")
-        # with open(file_name_with_path, "w", encoding="utf-8") as f:
-        #     json.dump(nested_dict, f, indent=4)
+        project_saver.save_project_as_json(file_name_with_path)

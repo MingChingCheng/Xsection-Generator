@@ -5,7 +5,7 @@ from CTkMenuBar import (
 
 
 class MenuBar:
-    def __init__(self, master):
+    def __init__(self, master, **commands):
 
         self.menu = CTkMenuBar(master)
         self.menu.grid(row=0, column=0, sticky="ew")
@@ -15,7 +15,7 @@ class MenuBar:
         file_dropdown = CustomDropdownMenu(widget=self.file)
         file_dropdown.add_option(option="Open project ...", command=self.open_project)
         file_dropdown.add_option(option="Save project ", command=self.save_project)
-        file_dropdown.add_option(option="Save project as ...", command=self.save_project_as)
+        file_dropdown.add_option(option="Save project as ...", command=commands["save_as_command"])
 
         # create About menu
         self.about = self.menu.add_cascade("About")
@@ -28,9 +28,6 @@ class MenuBar:
 
     def save_project(self):
         print("Save project")
-
-    def save_project_as(self):
-        print("Save project as")
 
     def about_app(self):
         print("About Xsection Generator")
