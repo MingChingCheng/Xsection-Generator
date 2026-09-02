@@ -98,3 +98,58 @@ class DataChecker:
         ## check if GDSII number is greater than or equal to 0
         if gdsii_number < 0:
             raise ValueError(f"{material_data.name}'s GDSII number '{material_data.gdsii_number}' must be greater than or equal to 0 !")
+
+    def check_process_data_dict(self, process_data_dict: ProcessDataDict) -> None:
+        """Check the process data for errors"""
+        for process_data in process_data_dict.values():
+            self.check_process_data(process_data)
+
+    def check_process_data(self, process_data: ProcessData) -> None:
+        """Check the process data for errors"""
+        # process name
+        ## first char of name must be a letter
+        if ord(process_data.name[0]) < 65 or ord(process_data.name[0]) > 122:
+            raise ValueError(f"Process name '{process_data.name}' must start with a letter !")
+
+        # Type
+        type = process_data.type
+        if type not in ["Deposit", "Grow", "Etch"]:
+            raise ValueError(f"{process_data.name}'s type '{type}' is not valid !")
+
+        # Mask
+        mask = process_data.mask
+        if type in ["Grow", "Etch"] and mask == "No mask":
+            raise ValueError(f"{process_data.name}'s type '{type}' requires a mask !")
+
+        # Material
+        material = process_data.material
+        if material == [] or material == "":
+            raise ValueError(f"{process_data.name}'s material is empty !")
+
+        # Vertical
+        vertical = process_data.vertical
+        try:
+            vertical = float(vertical)
+        except ValueError:
+            raise ValueError(f"{process_data.name}'s vertical '{process_data.vertical}' is not a number !")
+        if vertical <= 0:
+            raise ValueError(f"{process_data.name}'s vertical '{process_data.vertical}' must be greater than 0 !")
+
+        # Horizontal
+        horizontal = process_data.horizontal
+        try:
+            horizontal = float(horizontal)
+        except ValueError:
+            raise ValueError(f"{process_data.name}'s horizontal '{process_data.horizontal}' is not a number !")
+        if horizontal <= 0:
+            raise ValueError(f"{process_data.name}'s horizontal '{process_data.horizontal}' must be greater than 0 !")
+
+        # Angle
+        angle = process_data.angle
+        try:
+            angle = float(angle)
+        except ValueError:
+            raise ValueError(f"{process_data.name}'s angle '{process_data.angle}' is not a number !")
+        if angle < 0 or angle > 90:
+            raise ValueError(f"{process_data.name}'s angle '{process_data.angle}' must be between 0 and 90 !")
+
