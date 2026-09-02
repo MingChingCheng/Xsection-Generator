@@ -36,7 +36,7 @@ class App(ctk.CTk):
             button.configure(font=fonts.tab_font, border_spacing=6, width=120)
 
     def export_xs_file(self) -> None:
-        _ = CodeGenerator(
+        code_generator = CodeGenerator(
             project_data=self.tabview.get_project_data(),
             mask_data_dict=self.tabview.get_mask_data(),
             material_data_dict=self.tabview.get_material_data(),
@@ -44,8 +44,14 @@ class App(ctk.CTk):
             output_data=self.tabview.get_output_data()
         )
 
+        successfully = code_generator.generate_code()
+
         # show a message box to inform file has been exported
-        messagebox.showinfo("Export", "File has been exported successfully.")
+        if successfully is True:
+            messagebox.showinfo("Export", "File has been exported successfully.")
+        # show a message box to inform the error code
+        elif isinstance(successfully, str):
+            messagebox.showerror("Export Error", f"Error generating code: {successfully}")
         
     def save_project_as(self) -> None:
         # export the data to a json file
