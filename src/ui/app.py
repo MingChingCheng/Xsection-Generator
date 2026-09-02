@@ -2,7 +2,6 @@ from tkinter import messagebox
 
 import customtkinter as ctk
 
-from src.model.basic import Data, DataDict
 from src.service.code_generator import CodeGenerator
 from src.service.project_saver import ProjectSaver
 from src.ui.fonts import MyFonts
@@ -33,12 +32,6 @@ class App(ctk.CTk):
         self.tabview.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
         for button in self.tabview._segmented_button._buttons_dict.values():
             button.configure(font=fonts.tab_font, border_spacing=6, width=120)
-
-    def get_all_data(self) -> dict[str, Data | DataDict]:
-        data = {"project": self.tabview.get_project_data(),
-                "mask": self.tabview.get_mask_data()}
-        
-        return data
 
     def export_xs_file(self) -> None:
         _ = CodeGenerator(
