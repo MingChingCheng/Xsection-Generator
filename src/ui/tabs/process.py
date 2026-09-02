@@ -46,7 +46,12 @@ class ProcessFrame(ctk.CTkFrame):
         self.name_description.grid(row=1, column=0, columnspan=2, padx=5, sticky="e")
 
         self.type_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Type: ")
-        self.type_optionmenu = ctk.CTkOptionMenu(self.entry_frame, font=fonts.text_font, values=["-", "Deposit", "Grow", "Etch"])
+        self.type_optionmenu = ctk.CTkOptionMenu(
+            self.entry_frame,
+            font=fonts.text_font,
+            values=["-", "Deposit", "Grow", "Etch"],
+            command=self._process_layout
+        )
         self.type_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Select the type of process. ", text_color="dimgray",)
         self.type_label.grid(row=2, column=0, padx=5, sticky="e")
         self.type_optionmenu.grid(row=2, column=1, padx=5, sticky="we")
@@ -136,6 +141,9 @@ class ProcessFrame(ctk.CTkFrame):
         self.backside_checkbox.grid(row=16, column=1, padx=5, sticky="w")
         self.backside_description.grid(row=17, column=0, columnspan=2, padx=5, sticky="e")
 
+        ## set the initial layout to hide all entry fields
+        self._process_layout("-")
+
         # buttons
         self.modify_button = ctk.CTkButton(self, text="Modify", font=fonts.text_font, command=self.modify)
         self.remove_button = ctk.CTkButton(self, text="Remove", font=fonts.text_font, command=self.remove)
@@ -154,6 +162,7 @@ class ProcessFrame(ctk.CTkFrame):
             self.clear_all_entries()
             self.name_entry.insert(0, process.name)
             self.type_optionmenu.set(process.type)
+            self._process_layout(process.type)
             self.mask_optionmenu.set(process.mask)
             self.material_scrollable_frame.set_selection(process.material)
             self.material_scrollable_frame.set_selection(process.ignore_material)
@@ -221,6 +230,8 @@ class ProcessFrame(ctk.CTkFrame):
         self.angle_entry.delete(0, tk.END)
         self.backside_checkbox.deselect()
 
+        self._process_layout("-")
+
     def _get_entry_data(self) -> ProcessData:
         """return ProcessData from entries"""
         return ProcessData(
@@ -272,6 +283,127 @@ class ProcessFrame(ctk.CTkFrame):
 
         self.listbox_frame.listbox.delete("all")
         self.listbox_frame.refresh_listbox()
+
+    def _process_layout(self, choice) -> None:
+        """show/hide the entry fields based on the process type"""
+        self.entry_frame.update_idletasks()
+        self.entry_frame._parent_canvas.yview_moveto(0.0)
+
+        if choice == "-":
+            self.mask_label.grid_remove()
+            self.mask_optionmenu.grid_remove()
+            self.mask_description.grid_remove()
+    
+            self.material_label.grid_remove()
+            self.material_scrollable_frame.grid_remove()
+            self.material_description.grid_remove()
+    
+            self.ignore_material_label.grid_remove()
+            self.ignore_material_scrollable_frame.grid_remove()
+            self.ignore_material_description.grid_remove()
+    
+            self.vertical_label.grid_remove()
+            self.vertical_entry.grid_remove()
+            self.vertical_description.grid_remove()
+    
+            self.horizontal_label.grid_remove()
+            self.horizontal_entry.grid_remove()
+            self.horizontal_description.grid_remove()
+    
+            self.angle_label.grid_remove()
+            self.angle_entry.grid_remove()
+            self.angle_description.grid_remove()
+    
+            self.backside_checkbox.grid_remove()
+            self.backside_description.grid_remove()
+    
+        if choice == "Deposit":
+            self.mask_label.grid_remove()
+            self.mask_optionmenu.grid_remove()
+            self.mask_description.grid_remove()
+
+            self.material_label.grid()
+            self.material_scrollable_frame.grid()
+            self.material_description.grid()
+
+            self.ignore_material_label.grid_remove()
+            self.ignore_material_scrollable_frame.grid_remove()
+            self.ignore_material_description.grid_remove()
+
+            self.vertical_label.grid()
+            self.vertical_entry.grid()
+            self.vertical_description.grid()
+
+            self.horizontal_label.grid()
+            self.horizontal_entry.grid()
+            self.horizontal_description.grid()
+
+            self.angle_label.grid_remove()
+            self.angle_entry.grid_remove()
+            self.angle_description.grid_remove()
+
+            self.backside_checkbox.grid()
+            self.backside_description.grid()
+
+        elif choice == "Grow":
+            self.mask_label.grid()
+            self.mask_optionmenu.grid()
+            self.mask_description.grid()
+    
+            self.material_label.grid()
+            self.material_scrollable_frame.grid()
+            self.material_description.grid()
+    
+            self.ignore_material_label.grid()
+            self.ignore_material_scrollable_frame.grid()
+            self.ignore_material_description.grid()
+    
+            self.vertical_label.grid()
+            self.vertical_entry.grid()
+            self.vertical_description.grid()
+    
+            self.horizontal_label.grid()
+            self.horizontal_entry.grid()
+            self.horizontal_description.grid()
+    
+            self.angle_label.grid_remove()
+            self.angle_entry.grid_remove()
+            self.angle_description.grid_remove()
+    
+            self.backside_checkbox.grid()
+            self.backside_description.grid()
+
+        if choice == "Etch":
+            self.mask_label.grid()
+            self.mask_optionmenu.grid()
+            self.mask_description.grid()
+
+            self.material_label.grid()
+            self.material_scrollable_frame.grid()
+            self.material_description.grid()
+
+            self.ignore_material_label.grid()
+            self.ignore_material_scrollable_frame.grid()
+            self.ignore_material_description.grid()
+
+            self.vertical_label.grid()
+            self.vertical_entry.grid()
+            self.vertical_description.grid()
+
+            self.horizontal_label.grid()
+            self.horizontal_entry.grid()
+            self.horizontal_description.grid()
+
+            self.angle_label.grid()
+            self.angle_entry.grid()
+            self.angle_description.grid()
+
+            self.backside_checkbox.grid()
+            self.backside_description.grid()
+
+
+        
+
 
 class CheckList(ctk.CTkScrollableFrame):
     def __init__(self, master, fonts: MyFonts, material_data_dict: MaterialDataDict):
