@@ -211,6 +211,7 @@ class CodeGenerator:
                 file.write("flip\n")
 
             self.write_snapshot(file, process_data.name)
+            file.write("\n")
 
         # end of process data
         file.write("\n")
