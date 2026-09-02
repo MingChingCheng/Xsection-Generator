@@ -138,30 +138,67 @@ class CodeGenerator:
 
             if process_data.type == "-":
                 pass
+
             elif process_data.type == "Deposit":
+
+                # material
                 material = process_data.material[0]
+                file.write(f"{material} = deposit(")
+
+                # dimensions
                 v = process_data.vertical
                 h = process_data.horizontal
-                file.write(f"{material} = deposit({v}, {h}, :mode => :round)\n")
+                file.write(f"vertical({v}), {h},")
+
+                # options
+                file.write(" :mode => :round)")
+
+                # end
+                file.write("\n")
 
             elif process_data.type == "Grow":
-                mask = process_data.mask.split(" ")[0]
+
+                # material
                 material = process_data.material[0]
-                ignored_material = self._material_string(process_data.ignore_material)
+                file.write(f"{material} = ")
+
+                # mask
+                mask = process_data.mask.split(" ")[0]
+                mask = f"{mask}_layer"
+                file.write(f"mask({mask}).grow(")
+
+                # dimensions
                 v = process_data.vertical
                 h = process_data.horizontal
-                file.write(f"{material} = mask({mask}).grow(")
-                file.write(f"{v}, {h}, :mode => :round, :through => {ignored_material})\n")
+                file.write(f"vertical({v}), {h}, ")
+
+                # options
+                ignored_material = self._material_string(process_data.ignore_material)
+                file.write(f":mode => :round, :through => {ignored_material})")
+
+                # end
+                file.write("\n")
 
             elif process_data.type == "Etch":
-                mask = process_data.mask
-                material = self._material_string(process_data.material)
-                ignored_material = self._material_string(process_data.ignore_material)
+
+                # mask
+                mask = process_data.mask.split(" ")[0]
+                mask = f"{mask}_layer"
+                file.write(f"mask({mask}).etch(")
+
+                # dimensions
                 v = process_data.vertical
                 h = process_data.horizontal
                 a = process_data.angle
-                file.write(f"mask({mask}).etch(")
-                file.write(f"{v}, {h}, :into => {material}, :through => {ignored_material}, :taper => {a})\n")
+                file.write(f"vertical({v}), {h}, :taper => angle({a}), ")
+
+                # options
+                material = self._material_string(process_data.material)
+                ignored_material = self._material_string(process_data.ignore_material)
+                file.write(f":into => {material}, :through => {ignored_material})")
+
+                # end
+                file.write("\n")
 
             # flip back to front side after backside processing
             if process_data.backside == 1 or process_data.backside == "1":
