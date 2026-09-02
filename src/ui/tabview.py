@@ -96,8 +96,8 @@ class TabView(ctk.CTkTabview):
     def get_output_data(self) -> OutputData:
         return self.output_frame.get_data()
 
-    # def set_output_data(self, output_data: OutputData) -> None:
-    #     self.output_frame.set_data(output_data)
+    def set_output_data(self, output_data: OutputData) -> None:
+        self.output_frame.set_data(output_data)
     
     def get_all_data(self) -> dict[str, Data | DataDict]:
         return {

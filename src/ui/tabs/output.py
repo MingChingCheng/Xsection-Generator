@@ -81,3 +81,14 @@ class OutputFrame(ctk.CTkFrame):
             path=self.path_textbox.get("0.0", "end").replace("\n", ""),
             steps=self.step_checkbox.get()
         )
+
+    def set_data(self, output_data: OutputData) -> None:
+        self.path_textbox.configure(state="normal")
+        self.path_textbox.delete("0.0", "end")
+        self.path_textbox.insert("0.0", output_data.path)
+        self.path_textbox.configure(state="disabled")
+
+        if output_data.steps == 0:
+            self.step_checkbox.deselect()
+        else:
+            self.step_checkbox.select()
