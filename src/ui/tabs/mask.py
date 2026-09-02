@@ -163,6 +163,10 @@ class MaskFrame(ctk.CTkFrame):
 
     def set_data(self, mask_data_dict: MaskDataDict) -> None:
         """set the mask data dict"""
+        # clear the current mask data dict
+        self.mask_data_dict.clear()
+
+        # append the new mask data to the mask data dict
         for mask_data in mask_data_dict.values():
             self.mask_data_dict.append_data(mask_data)
             

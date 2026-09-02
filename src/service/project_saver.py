@@ -88,6 +88,8 @@ class ProjectSaver:
         
         if key == "material":
             material_data_dict = MaterialDataDict()
+            # clear the material_data_dict before appending new data
+            material_data_dict.clear()
             for material_data in data_dict.values():
                 material_data_dict.append_data(MaterialData(**material_data))
             return material_data_dict

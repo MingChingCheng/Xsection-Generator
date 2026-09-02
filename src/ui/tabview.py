@@ -83,9 +83,9 @@ class TabView(ctk.CTkTabview):
     def get_material_data(self) -> MaterialDataDict:
         return self.material_frame.get_data()
 
-    # def set_material_data(self, material_data_dict: MaterialDataDict) -> None:
-    #     self.material_frame.set_data(material_data_dict)
-    #     self.process_frame.update_material_data(material_data_dict)
+    def set_material_data(self, material_data_dict: MaterialDataDict) -> None:
+        self.material_frame.set_data(material_data_dict)
+        self.process_frame.update_material_data(material_data_dict)
 
     def get_process_data(self) -> ProcessDataDict:
         return self.process_frame.get_data()

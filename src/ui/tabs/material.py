@@ -148,3 +148,15 @@ class MaterialFrame(ctk.CTkFrame):
     def _notify_change(self) -> None:
         if self.on_change is not None:
             self.on_change(self.material_data_dict)
+
+    def set_data(self, material_data_dict: MaterialDataDict) -> None:
+        """set the material data dict"""
+        # clear the current material data dict
+        self.material_data_dict.clear()
+
+        # append the new material data dict
+        for material_data in material_data_dict.values():
+            self.material_data_dict.append_data(material_data)
+
+        self.listbox_frame.listbox.delete("all")
+        self.listbox_frame.refresh_listbox()
