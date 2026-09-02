@@ -21,27 +21,42 @@ class DataChecker:
                 raise ValueError(f"Project name contains invalid character '{char}' !")
 
         # Z scaling
-        z_scaling = float(project_data.z_scaling)
+        try:
+            z_scaling = float(project_data.z_scaling)
+        except ValueError:
+            raise ValueError(f"Z scaling '{project_data.z_scaling}' is not a number !")
         if z_scaling <= 0:
             raise ValueError("Z scaling must be greater than 0 !")
 
         # Resolution
-        resolution = float(project_data.resolution)
+        try:
+            resolution = float(project_data.resolution)
+        except ValueError:
+            raise ValueError(f"Resolution '{project_data.resolution}' is not a number !")
         if resolution <= 0:
             raise ValueError("Resolution must be greater than 0 !")
 
         # Height
-        height = float(project_data.height)
+        try:
+            height = float(project_data.height)
+        except ValueError:
+            raise ValueError(f"Height '{project_data.height}' is not a number !")
         if height <= 0:
             raise ValueError("Height must be greater than 0 !")
 
         # Depth
-        depth = float(project_data.depth)
+        try:
+            depth = float(project_data.depth)
+        except ValueError:
+            raise ValueError(f"Depth '{project_data.depth}' is not a number !")
         if depth <= 0:
             raise ValueError("Depth must be greater than 0 !")
 
         # Below
-        below = float(project_data.below)
+        try:
+            below = float(project_data.below)
+        except ValueError:
+            raise ValueError(f"Below '{project_data.below}' is not a number !")
         if below <= 0:
             raise ValueError("Below must be greater than 0 !")
 
