@@ -1,10 +1,10 @@
-import tkinter as tk
 from tkinter import messagebox
 
 import customtkinter as ctk
 
 from src.service.code_generator import CodeGenerator
 from src.service.project_saver import ProjectSaver
+from src.ui.about.about import AboutWindow
 from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
@@ -80,4 +80,7 @@ class App(ctk.CTk):
 
             # set the data to the tabview
             self.tabview.set_all_data(project_saver)
+
+    def about(self) -> None:
+        AboutWindow(self)
 
