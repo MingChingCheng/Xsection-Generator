@@ -14,3 +14,6 @@ class MyFonts:
 
         # Description
         self.desc_font = ctk.CTkFont(family="Roboto", size=12, slant="italic")
+
+        # license
+        self.lice_font = ctk.CTkFont(family="Consolas", size=12)

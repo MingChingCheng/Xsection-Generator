@@ -19,8 +19,9 @@ class MenuBar:
         # create About menu
         self.about = self.menu.add_cascade("About")
         about_dropdown = CustomDropdownMenu(widget=self.about)
-        about_dropdown.add_option(option="About Xsection Generator", command=self.about_app)
-        about_dropdown.add_option(option="License", command=self.about_license)
+        about_dropdown.add_option(option="About Xsection Generator", command=commands["about_command"])
+        about_dropdown.add_option(option="License", command=commands["license_command"])
+        about_dropdown.add_option(option="Third-party Licenses", command=commands["third_party_licenses_command"])
 
     def open_project(self):
         print("Open project")
