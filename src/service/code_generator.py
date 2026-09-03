@@ -43,6 +43,7 @@ class CodeGenerator:
             self.data_checker.check_mask_data_dict(self.mask_data_dict)
             self.data_checker.check_material_data_dict(self.material_data_dict)
             self.data_checker.check_process_data_dict(self.process_data_dict)
+            self.data_checker.check_output_data(self.output_data)
 
             with open(file_name_with_path, "w") as file:
                 self.write_project_information(file)

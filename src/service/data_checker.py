@@ -168,3 +168,18 @@ class DataChecker:
         if angle < 0 or angle > 90:
             raise ValueError(f"{process_data.name}'s angle '{process_data.angle}' must be between 0 and 90 !")
 
+    def check_output_data(self, output_data: OutputData) -> None:
+        """Check the output data for errors"""
+        # Path
+        print(f"Checking output path: {output_data.path}")
+        ## empty
+        if output_data.path == "":
+            print("Output path is empty !")
+            raise ValueError("Output path is empty !")
+        
+        ## check if path contains invalid characters
+        invalid_chars = ["<", ">", ":", '"', "/", "\\", "|", "?", "*"]
+        for char in invalid_chars:
+            if char in output_data.path:
+                raise ValueError(f"Output path contains invalid character '{char}' !")
+        
