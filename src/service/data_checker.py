@@ -171,10 +171,8 @@ class DataChecker:
     def check_output_data(self, output_data: OutputData) -> None:
         """Check the output data for errors"""
         # Path
-        print(f"Checking output path: {output_data.path}")
         ## empty
         if output_data.path == "":
-            print("Output path is empty !")
             raise ValueError("Output path is empty !")
         
         ## check if path contains invalid characters

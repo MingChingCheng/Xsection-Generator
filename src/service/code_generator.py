@@ -35,9 +35,6 @@ class CodeGenerator:
     def generate_code(self) -> bool | str:
         """Generate the code and write it to a file"""
         try:
-            # make a unique file name with path
-            file_name_with_path = self.initialize_file_name_with_path()
-
             # check data for errors
             self.data_checker.check_project_data(self.project_data)
             self.data_checker.check_mask_data_dict(self.mask_data_dict)
@@ -45,6 +42,9 @@ class CodeGenerator:
             self.data_checker.check_process_data_dict(self.process_data_dict)
             self.data_checker.check_output_data(self.output_data)
 
+            # make a unique file name with path
+            file_name_with_path = self.initialize_file_name_with_path()
+            
             with open(file_name_with_path, "w") as file:
                 self.write_project_information(file)
                 self.write_built_in_functions(file)
