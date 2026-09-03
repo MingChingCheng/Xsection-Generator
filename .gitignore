@@ -26,6 +26,8 @@ coverage.xml
 build/
 dist/
 *.egg-info/
+*.spec
+build_exe.py
 
 # Local environment and tool files
 .env
