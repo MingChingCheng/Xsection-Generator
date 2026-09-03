@@ -1,5 +1,6 @@
 import customtkinter as ctk
 
+from src.service.resource import get_resource_path
 from src.ui.fonts import MyFonts
 from src.version import __version__
 
@@ -49,7 +50,8 @@ class LicenseWindow(ctk.CTkToplevel):
         self.title_label.grid(row=0, column=0, pady=(20, 10))
 
         # read the license file and display it in a text box
-        with open("LICENSE", "r") as f:
+        license_path = get_resource_path("LICENSE")
+        with open(license_path, "r") as f:
             license_text = f.read()
         self.license_textbox = ctk.CTkTextbox(self, font=fonts.lice_font)
         self.license_textbox.insert("0.0", license_text)
@@ -73,7 +75,8 @@ class ThirdPartyLicenseWindow(ctk.CTkToplevel):
         self.title_label.grid(row=0, column=0, pady=(20, 10))
 
         # read the license file and display it in a text box
-        with open("THIRD_PARTY_LICENSES.txt", "r") as f:
+        license_path = get_resource_path("THIRD_PARTY_LICENSES.txt")
+        with open(license_path, "r") as f:
             license_text = f.read()
         self.license_textbox = ctk.CTkTextbox(self, font=fonts.lice_font)
         self.license_textbox.insert("0.0", license_text)
