@@ -1,3 +1,4 @@
+import tkinter as tk
 from tkinter import messagebox
 
 import customtkinter as ctk
@@ -27,7 +28,8 @@ class App(ctk.CTk):
         # Menubar
         self.menu_bar = MenuBar(self,
                                 open_command=self.open_project, 
-                                save_as_command=self.save_project_as)
+                                save_as_command=self.save_project_as,
+                                about_command=self.about)
 
         # Tab view
         self.tabview = TabView(self, fonts, export_xs_file=self.export_xs_file)
