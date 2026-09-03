@@ -21,6 +21,7 @@ class App(ctk.CTk):
         self.grid_rowconfigure(0, weight=0)       # for menu bar
         self.grid_rowconfigure(1, weight=1)       # for tab view
         self.grid_columnconfigure(0, weight=1)    # for tab view
+        self.about_window = None
         
         # Font
         fonts = MyFonts()
@@ -82,5 +83,7 @@ class App(ctk.CTk):
             self.tabview.set_all_data(project_saver)
 
     def about(self) -> None:
-        AboutWindow(self)
-
+        if self.about_window is None or not self.about_window.winfo_exists():
+            self.about_window = AboutWindow(self)  # create window if its None or destroyed
+        else:
+            self.about_window.focus()  # if window exists focus it
