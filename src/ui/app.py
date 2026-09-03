@@ -4,7 +4,7 @@ import customtkinter as ctk
 
 from src.service.code_generator import CodeGenerator
 from src.service.project_saver import ProjectSaver
-from src.ui.about.about import AboutWindow, LicenseWindow
+from src.ui.about.about import AboutWindow, LicenseWindow, ThirdPartyLicenseWindow
 from src.ui.fonts import MyFonts
 from src.ui.menu_bar import MenuBar
 from src.ui.tabview import TabView
@@ -23,6 +23,7 @@ class App(ctk.CTk):
         self.grid_columnconfigure(0, weight=1)    # for tab view
         self.about_window = None
         self.license_window = None
+        self.third_party_license_window = None
         
         # Font
         fonts = MyFonts()
@@ -32,7 +33,8 @@ class App(ctk.CTk):
                                 open_command=self.open_project, 
                                 save_as_command=self.save_project_as,
                                 about_command=self.about,
-                                license_command=self.license)
+                                license_command=self.license,
+                                third_party_licenses_command=self.third_party_licenses)
 
         # Tab view
         self.tabview = TabView(self, fonts, export_xs_file=self.export_xs_file)
@@ -99,3 +101,14 @@ class App(ctk.CTk):
         else:
             # if window exists focus it
             self.license_window.focus()
+
+    def third_party_licenses(self) -> None:
+        if (
+            self.third_party_license_window is None
+            or not self.third_party_license_window.winfo_exists()
+        ):
+            # create window if its None or destroyed
+            self.third_party_license_window = ThirdPartyLicenseWindow(self)
+        else:
+            # if window exists focus it
+            self.third_party_license_window.focus()
