@@ -7,6 +7,7 @@ from src.model.material import MaterialDataDict
 from src.model.output import OutputData
 from src.model.process import ProcessDataDict
 from src.model.project import ProjectData
+from src.service.data_checker import DataChecker
 
 
 class CodeGenerator:
@@ -28,16 +29,33 @@ class CodeGenerator:
         # record used materials
         self.used_materials = ["Substrate"]
 
+        # create a data checker
+        self.data_checker = DataChecker()
 
-        file_name_with_path = self.initialize_file_name_with_path()
+    def generate_code(self) -> bool | str:
+        """Generate the code and write it to a file"""
+        try:
+            # check data for errors
+            self.data_checker.check_project_data(self.project_data)
+            self.data_checker.check_mask_data_dict(self.mask_data_dict)
+            self.data_checker.check_material_data_dict(self.material_data_dict)
+            self.data_checker.check_process_data_dict(self.process_data_dict)
+            self.data_checker.check_output_data(self.output_data)
+
+            # make a unique file name with path
+            file_name_with_path = self.initialize_file_name_with_path()
+            
+            with open(file_name_with_path, "w") as file:
+                self.write_project_information(file)
+                self.write_built_in_functions(file)
+                self.write_project_data(file)
+                self.write_mask_data(file)
+                self.write_process_data(file)
+                self.write_output(file)
+            return True
         
-        with open(file_name_with_path, "w") as file:
-            self.write_project_information(file)
-            self.write_built_in_functions(file)
-            self.write_project_data(file)
-            self.write_mask_data(file)
-            self.write_process_data(file)
-            self.write_output(file)
+        except Exception as e:  # noqa: BLE001
+            return f"{e}"
 
     def initialize_file_name_with_path(self) -> str:
         """return the file name with path"""
