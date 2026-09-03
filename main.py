@@ -1,6 +1,5 @@
 from src.ui.app import App
-
-__version__ = "1.0.0"
+from src.version import __version__
 
 if __name__ == "__main__":
     app = App()
