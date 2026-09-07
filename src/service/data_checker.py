@@ -35,6 +35,8 @@ class DataChecker:
             raise ValueError(f"Resolution '{project_data.resolution}' is not a number !")
         if resolution <= 0:
             raise ValueError("Resolution must be greater than 0 !")
+        if resolution > 1:
+            raise ValueError(f"Resolution ({resolution}(um)) is too low !")
 
         # Height
         try:
@@ -138,9 +140,21 @@ class DataChecker:
 
         # Material
         material = process_data.material
-        if material == [] or material == "":
-            raise ValueError(f"{process_data.name}'s material is empty !")
+        ignore_material = process_data.ignore_material
 
+        if type == "Grow" or type == "Deposit":
+            if len(material) > 1:
+                raise ValueError(f"{process_data.name}'s type '{type}' can only have one material !")
+            if material == [] or material == "":
+                        raise ValueError(f"{process_data.name}'s material is empty !")
+
+        if type == "Etch":
+            if material == [] or material == "":
+                raise ValueError(f"{process_data.name}'s material is empty ! Select at least one material.")
+            for ignored in ignore_material:
+                if ignored in material:
+                    raise ValueError(f"{process_data.name}'s ignore material '{ignored}' is also in the material list !")
+                
         # Vertical
         vertical = process_data.vertical
         try:
@@ -156,8 +170,12 @@ class DataChecker:
             horizontal = float(horizontal)
         except ValueError:
             raise ValueError(f"{process_data.name}'s horizontal '{process_data.horizontal}' is not a number !")
-        if horizontal <= 0:
+        
+        if (type == "Grow" or type == "Deposit") and (horizontal <= 0):
             raise ValueError(f"{process_data.name}'s horizontal '{process_data.horizontal}' must be greater than 0 !")
+
+        if (type == "Etch") and (horizontal < 0):
+            raise ValueError(f"{process_data.name}'s horizontal '{process_data.horizontal}' must be greater than or equal to 0 !")
 
         # Angle
         angle = process_data.angle
@@ -175,9 +193,4 @@ class DataChecker:
         if output_data.path == "":
             raise ValueError("Output path is empty !")
         
-        ## check if path contains invalid characters
-        invalid_chars = ["<", ">", ":", '"', "/", "\\", "|", "?", "*"]
-        for char in invalid_chars:
-            if char in output_data.path:
-                raise ValueError(f"Output path contains invalid character '{char}' !")
         
