@@ -31,6 +31,8 @@ class ProcessDataDict(DataDict[ProcessData]):
         # name
         if data.name == "":
             data.name = f"Process_{length + 1}"
+        # replace space in name with underscore
+        data.name = data.name.replace(" ", "_")
 
         # type
         if data.type == "-":
