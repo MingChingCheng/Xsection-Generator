@@ -16,7 +16,7 @@ class App(ctk.CTk):
 
         # Window
         self.title("Xsection Generator")
-        self.geometry("600x400")
+        self.geometry("650x400")
 
         self.grid_rowconfigure(0, weight=0)       # for menu bar
         self.grid_rowconfigure(1, weight=1)       # for tab view
