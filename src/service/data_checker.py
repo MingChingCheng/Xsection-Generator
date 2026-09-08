@@ -74,6 +74,10 @@ class DataChecker:
         if ord(mask_data.name[0]) < 65 or ord(mask_data.name[0]) > 122:
             raise ValueError(f"Mask name '{mask_data.name}' must start with a letter !")
 
+        ## check if mask name has a space character
+        if " " in mask_data.name:
+            raise ValueError(f"Mask name '{mask_data.name}' must not contain space character !")
+
         # GDSII number
         ## check if GDSII number is an integer
         try:
@@ -106,6 +110,10 @@ class DataChecker:
         if ord(material_data.name[0]) < 65 or ord(material_data.name[0]) > 122:
             raise ValueError(f"Material name '{material_data.name}' must start with a letter !")
 
+        ## check if material name has a space character
+        if " " in material_data.name:
+            raise ValueError(f"Material name '{material_data.name}' must not contain space character !")
+        
         # GDSII number
         ## check if GDSII number is an integer
         try:
@@ -128,6 +136,10 @@ class DataChecker:
         if ord(process_data.name[0]) < 65 or ord(process_data.name[0]) > 122:
             raise ValueError(f"Process name '{process_data.name}' must start with a letter !")
 
+        ## check if process name has a space character
+        if " " in process_data.name:
+            raise ValueError(f"Process name '{process_data.name}' must not contain space character !")
+        
         # Type
         type = process_data.type
         if type not in ["Deposit", "Grow", "Etch"]:
