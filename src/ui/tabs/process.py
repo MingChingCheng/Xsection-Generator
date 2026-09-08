@@ -338,6 +338,7 @@ class ProcessFrame(ctk.CTkFrame):
             self.horizontal_label.grid()
             self.horizontal_entry.grid()
             self.horizontal_description.grid()
+            self.horizontal_description.configure(text="Set the horizontal thickness. Default = Vertical. ")
 
             self.angle_label.grid_remove()
             self.angle_entry.grid_remove()
@@ -364,6 +365,8 @@ class ProcessFrame(ctk.CTkFrame):
             self.vertical_label.grid()
             self.vertical_entry.grid()
             self.vertical_description.grid()
+            self.horizontal_description.configure(text="Set the horizontal thickness. Default = Vertical. ")
+
     
             self.horizontal_label.grid()
             self.horizontal_entry.grid()
@@ -397,6 +400,8 @@ class ProcessFrame(ctk.CTkFrame):
             self.horizontal_label.grid()
             self.horizontal_entry.grid()
             self.horizontal_description.grid()
+            self.horizontal_description.configure(text="Set the horizontal thickness. Default = 0.0. ")
+
 
             self.angle_label.grid()
             self.angle_entry.grid()

@@ -43,8 +43,11 @@ class ProcessDataDict(DataDict[ProcessData]):
             data.vertical = "1"
 
         # horizontal
-        if data.horizontal == "":
-            data.horizontal = "1"
+        if (data.type == "Grow" or data.type == "Deposit") and (data.horizontal == ""):
+                data.horizontal = data.vertical
+
+        if (data.type == "Etch") and (data.horizontal == ""):
+                data.horizontal = "0"
 
         # angle
         if data.angle == "":
