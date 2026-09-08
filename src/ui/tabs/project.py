@@ -46,7 +46,7 @@ class ProjectFrame(ctk.CTkFrame):
         # Depth
         self.depth_label = ctk.CTkLabel(self, font=fonts.text_font, text="Depth (um): ")
         self.depth_entry = ctk.CTkEntry(self, font=fonts.text_font, placeholder_text="e.g.: 10")
-        self.depth_description = ctk.CTkLabel(self, font=fonts.desc_font, text="Display depth below substrate, default = 10 ", text_color="dimgray")
+        self.depth_description = ctk.CTkLabel(self, font=fonts.desc_font, text="Set the thickness of substrate, default = 10 ", text_color="dimgray")
         self.depth_label.grid(row=3, column=2, padx=5, sticky="e")
         self.depth_entry.grid(row=3, column=3, padx=5, sticky="we")
         self.depth_description.grid(row=4, column=2, columnspan=2, padx=5, sticky="e")
@@ -54,7 +54,7 @@ class ProjectFrame(ctk.CTkFrame):
         # Below
         self.below_label = ctk.CTkLabel(self, font=fonts.text_font, text="Below (um): ")
         self.below_entry = ctk.CTkEntry(self, font=fonts.text_font, placeholder_text="e.g.: 10")
-        self.below_description = ctk.CTkLabel(self, font=fonts.desc_font, text="Display backside of substrate, default = 10 ", text_color="dimgray")
+        self.below_description = ctk.CTkLabel(self, font=fonts.desc_font, text="Display below backside of substrate, default = 10 ", text_color="dimgray")
         self.below_label.grid(row=5, column=2, padx=5, sticky="e")
         self.below_entry.grid(row=5, column=3, padx=5, sticky="we")
         self.below_description.grid(row=6, column=2, columnspan=2, padx=5, sticky="e")
