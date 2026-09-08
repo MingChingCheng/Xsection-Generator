@@ -31,6 +31,8 @@ class ProcessDataDict(DataDict[ProcessData]):
         # name
         if data.name == "":
             data.name = f"Process_{length + 1}"
+        # replace space in name with underscore
+        data.name = data.name.replace(" ", "_")
 
         # type
         if data.type == "-":
@@ -41,8 +43,11 @@ class ProcessDataDict(DataDict[ProcessData]):
             data.vertical = "1"
 
         # horizontal
-        if data.horizontal == "":
-            data.horizontal = "1"
+        if (data.type == "Grow" or data.type == "Deposit") and (data.horizontal == ""):
+                data.horizontal = data.vertical
+
+        if (data.type == "Etch") and (data.horizontal == ""):
+                data.horizontal = "0"
 
         # angle
         if data.angle == "":

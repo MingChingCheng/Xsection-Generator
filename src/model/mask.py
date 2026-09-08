@@ -26,6 +26,8 @@ class MaskDataDict(DataDict[MaskData]):
         # name
         if data.name == "":
             data.name = f"Mask_{length + 1}"
+        # replace space in name with underscore
+        data.name = data.name.replace(" ", "_")
 
         # gdsii_number
         if data.gdsii_number == "":

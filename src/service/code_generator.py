@@ -198,7 +198,10 @@ class CodeGenerator:
 
                 # options
                 ignored_material = self._material_string(process_data.ignore_material)
-                file.write(f":mode => :round, :through => {ignored_material})")
+                if ignored_material == []:
+                    file.write(":mode => :round )")
+                else:
+                    file.write(f":mode => :round, :through => {ignored_material})")
 
                 # end
                 file.write("\n")
@@ -219,7 +222,10 @@ class CodeGenerator:
                 # options
                 material = self._material_string(process_data.material)
                 ignored_material = self._material_string(process_data.ignore_material)
-                file.write(f":into => {material}, :through => {ignored_material})")
+                if ignored_material == []:
+                    file.write(f":into => {material})")
+                else:
+                    file.write(f":into => {material}, :through => {ignored_material})")
 
                 # end
                 file.write("\n")

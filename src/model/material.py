@@ -30,6 +30,8 @@ class MaterialDataDict(DataDict[MaterialData]):
         # name
         if data.name == "":
             data.name = f"Material_{length + 1}"
+        # replace space in name with underscore
+        data.name = data.name.replace(" ", "_")
 
         # gdsii_number
         if data.gdsii_number == "":
