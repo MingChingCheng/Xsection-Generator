@@ -33,13 +33,13 @@ class ProcessFrame(ctk.CTkFrame):
         self.listbox_frame = ListBoxFrame(self, fonts, self.process_data_dict)
         self.listbox_frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
 
-        # entry frame
+        # entry scrollable frame
         self.entry_frame = ctk.CTkScrollableFrame(self, fg_color="transparent")
         self.entry_frame.grid_columnconfigure(1, weight=1)
         self.entry_frame.grid(row=0, column=2, columnspan=2, sticky="nsew", padx=5, pady=5)
 
         self.name_label = ctk.CTkLabel(self.entry_frame, font=fonts.text_font, text="Process Name: ")
-        self.name_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: Process_1, Deposit PE oxide, ...",)
+        self.name_entry = ctk.CTkEntry(self.entry_frame, font=fonts.text_font, placeholder_text="e.g.: Process_1, Deposit_PE_oxide, ...",)
         self.name_description = ctk.CTkLabel(self.entry_frame, font=fonts.desc_font, text="Set the name of process. ", text_color="dimgray",)
         self.name_label.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="e")
         self.name_entry.grid(row=0, column=1, padx=5, pady=(5, 0), sticky="we")
@@ -93,7 +93,7 @@ class ProcessFrame(ctk.CTkFrame):
         self.ignore_material_description = ctk.CTkLabel(
             self.entry_frame,
             font=fonts.desc_font,
-            text="Ignored material for this process. ",
+            text="Select material(s) pass through for this process. ",
             text_color="dimgray",
         )
         self.ignore_material_label.grid(row=8, column=0, padx=5, sticky="ne")
@@ -325,6 +325,7 @@ class ProcessFrame(ctk.CTkFrame):
             self.material_label.grid()
             self.material_scrollable_frame.grid()
             self.material_description.grid()
+            self.material_description.configure(text="Select one material for deposition. ")
 
             self.ignore_material_label.grid_remove()
             self.ignore_material_scrollable_frame.grid_remove()
@@ -353,6 +354,8 @@ class ProcessFrame(ctk.CTkFrame):
             self.material_label.grid()
             self.material_scrollable_frame.grid()
             self.material_description.grid()
+            self.material_description.configure(text="Select one material for growing. ")
+
     
             self.ignore_material_label.grid()
             self.ignore_material_scrollable_frame.grid()
@@ -381,6 +384,7 @@ class ProcessFrame(ctk.CTkFrame):
             self.material_label.grid()
             self.material_scrollable_frame.grid()
             self.material_description.grid()
+            self.material_description.configure(text="Select material(s) for etching. ")
 
             self.ignore_material_label.grid()
             self.ignore_material_scrollable_frame.grid()
